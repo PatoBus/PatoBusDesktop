@@ -14,9 +14,11 @@ type
     LblSenha: TLabel;
     Panel2: TPanel;
     Panel3: TPanel;
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    BtnLogin: TBitBtn;
+    procedure FormCreate(Sender: TObject);
+    procedure BtnLoginClick(Sender: TObject);
   private
-    { Private declarations }
+    Tentativas: Integer;
   public
     { Public declarations }
   end;
@@ -30,9 +32,14 @@ implementation
 
 
 
-procedure TFormLogin.FormClose(Sender: TObject; var Action: TCloseAction);
+procedure TFormLogin.BtnLoginClick(Sender: TObject);
 begin
-  Action := caFree;
+  ModalResult := mrOk;
+end;
+
+procedure TFormLogin.FormCreate(Sender: TObject);
+begin
+  Tentativas := 0;
 end;
 
 end.

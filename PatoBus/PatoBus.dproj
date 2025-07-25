@@ -5,7 +5,7 @@
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
-        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <ProjectName Condition="'$(ProjectName)'==''">PatoBus</ProjectName>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -106,6 +106,9 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
+        <BRCC_OutputDir>C:\Users\marco\OneDrive\Desktop\projetos\IFRN\projeto_integrador\PatoBusDesktop\PatoBus\exe\</BRCC_OutputDir>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -125,7 +128,9 @@
         </DelphiCompile>
         <DCCReference Include="UnitLogin.pas">
             <Form>FormLogin</Form>
-            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="UnitMain.pas">
+            <Form>FormMain</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
@@ -147,6 +152,10 @@
                 <Source>
                     <Source Name="MainSource">PatoBus.dpr</Source>
                 </Source>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k290.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp290.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="4">
                 <DeployFile LocalName="Win32\Debug\PatoBus.exe" Configuration="Debug" Class="ProjectOutput">

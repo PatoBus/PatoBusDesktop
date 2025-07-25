@@ -12,7 +12,7 @@ object FormLogin: TFormLogin
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poScreenCenter
-  OnClose = FormClose
+  OnCreate = FormCreate
   TextHeight = 15
   object Panel1: TPanel
     Left = 248
@@ -62,6 +62,19 @@ object FormLogin: TFormLogin
       Color = clWhite
       ParentBackground = False
       TabOrder = 1
+    end
+    object BtnLogin: TBitBtn
+      Left = 0
+      Top = 416
+      Width = 376
+      Height = 25
+      Align = alBottom
+      Caption = 'Entrar'
+      TabOrder = 2
+      OnClick = BtnLoginClick
+      ExplicitLeft = 160
+      ExplicitTop = 352
+      ExplicitWidth = 75
     end
   end
   object Panel2: TPanel

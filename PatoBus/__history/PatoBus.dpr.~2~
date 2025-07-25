@@ -1,0 +1,26 @@
+program PatoBus;
+
+uses
+  Vcl.Forms,
+  UnitLogin in 'UnitLogin.pas' {FormLogin},
+  UnitMain in 'UnitMain.pas' {FormMain};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+
+  frmLogin := TfrmLogin.Create(nil);
+  try
+    if frmLogin.ShowModal = mrOk then
+    begin
+      Application.CreateForm(TfrmPrincipal, frmPrincipal);
+      Application.Run;
+    end
+    else
+      Application.Terminate;
+  finally
+    frmLogin.Free;
+  end;
+end.
