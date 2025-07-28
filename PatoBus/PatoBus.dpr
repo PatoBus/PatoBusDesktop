@@ -5,7 +5,8 @@ uses
   Vcl.Dialogs,
   Vcl.Controls,
   UnitLogin in 'UnitLogin.pas' {FormLogin},
-  UnitMain in 'UnitMain.pas' {FormMain};
+  UnitMain in 'UnitMain.pas' {FormMain},
+  UnitConsultaLinha in 'UnitConsultaLinha.pas' {FormConsultaLinha};
 
 {$R *.res}
 
@@ -18,7 +19,8 @@ begin
     if FormLogin.ShowModal = mrOk then
     begin
       Application.CreateForm(TFormMain, FormMain);
-      Application.Run;
+  Application.CreateForm(TFormConsultaLinha, FormConsultaLinha);
+  Application.Run;
     end
     else
       Application.Terminate;
