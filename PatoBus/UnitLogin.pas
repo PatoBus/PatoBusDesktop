@@ -11,12 +11,14 @@ type
   TFormLogin = class(TForm)
     Panel1: TPanel;
     LblUsuario: TLabel;
-    EditSenha: TEdit;
     LblSenha: TLabel;
     Panel2: TPanel;
     Panel3: TPanel;
     BtnLogin: TBitBtn;
     Image1: TImage;
+    Panel4: TPanel;
+    EditUsuario: TEdit;
+    EditSenha: TEdit;
     procedure FormCreate(Sender: TObject);
     procedure BtnLoginClick(Sender: TObject);
     Procedure CentralizarImagemComQualidade(Image: TImage);
