@@ -910,6 +910,7 @@ object FormConsultaLinha: TFormConsultaLinha
     275438095DF37A29868882A0901F8259AA71815FD27C2C059C9427BB42177305
     AA698EE2081B432C72D1C8F8A4391649446B6CEAEFE27531E2210A5F148CC0B4
     954220C0FF0301C01180D94BCD3A0000000049454E44AE426082}
+  OnCreate = FormCreate
   TextHeight = 15
   object Splitter1: TSplitter
     Left = 0
@@ -934,6 +935,7 @@ object FormConsultaLinha: TFormConsultaLinha
       Width = 622
       Height = 183
       Align = alClient
+      DataSource = DMlinhas.DataSource1
       TabOrder = 0
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
@@ -949,10 +951,6 @@ object FormConsultaLinha: TFormConsultaLinha
     Height = 253
     Align = alClient
     TabOrder = 1
-    ExplicitLeft = 264
-    ExplicitTop = 136
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object Button1: TButton
       Left = 0
       Top = 0
@@ -960,6 +958,7 @@ object FormConsultaLinha: TFormConsultaLinha
       Height = 25
       Caption = 'Consultar'
       TabOrder = 0
+      OnClick = Button1Click
     end
   end
 end

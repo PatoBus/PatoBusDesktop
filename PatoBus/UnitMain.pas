@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs,UnitLogin, Vcl.Menus, Vcl.ToolWin,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs,UnitLogin, Vcl.Menus, Vcl.ToolWin,UnitConsultaLinha,
   Vcl.ComCtrls;
 
 type
@@ -23,6 +23,7 @@ type
     TCadastroUsuarios: TMenuItem;
     TConsultaRotas: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure TConsultaLinhasClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -39,6 +40,14 @@ implementation
 procedure TFormMain.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
    Application.Terminate;
+end;
+
+procedure TFormMain.TConsultaLinhasClick(Sender: TObject);
+begin
+    if not Assigned(FormConsultaLinha) then
+    Application.CreateForm(TFormConsultaLinha, FormConsultaLinha);
+
+    FormConsultaLinha.Show;
 end;
 
 end.

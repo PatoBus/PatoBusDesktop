@@ -1,7 +1,7 @@
-object Form1: TForm1
+object DMlinhas: TDMlinhas
   Left = 0
   Top = 0
-  Caption = 'Form1'
+  Caption = 'DMlinhas'
   ClientHeight = 441
   ClientWidth = 624
   Color = clBtnFace
@@ -11,12 +11,25 @@ object Form1: TForm1
   Font.Name = 'Segoe UI'
   Font.Style = []
   TextHeight = 15
-  object QConsultaLinhas: TFDQuery
-    Left = 48
-    Top = 104
+  object NetHTTPClient1: TNetHTTPClient
+    UserAgent = 'Embarcadero URI Client/1.0'
+    Left = 200
+    Top = 120
   end
-  object DSConsultaLinhas: TDataSource
-    Left = 48
-    Top = 176
+  object FDMemTable1: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 200
+    Top = 208
+  end
+  object DataSource1: TDataSource
+    DataSet = FDMemTable1
+    Left = 200
+    Top = 280
   end
 end

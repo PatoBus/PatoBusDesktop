@@ -141,7 +141,7 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="UnitDMLinhas.pas">
-            <Form>Form1</Form>
+            <Form>DMlinhas</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="UnitDMRotas.pas">

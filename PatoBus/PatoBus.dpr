@@ -9,7 +9,7 @@ uses
   UnitConsultaLinha in 'UnitConsultaLinha.pas' {FormConsultaLinha},
   Vcl.Themes,
   Vcl.Styles,
-  UnitDMLinhas in 'UnitDMLinhas.pas' {Form1},
+  UnitDMLinhas in 'UnitDMLinhas.pas' {DMlinhas},
   UnitDMRotas in 'UnitDMRotas.pas' {Form2},
   UnitDMParadas in 'UnitDMParadas.pas' {Form3},
   UnitDMUsuarios in 'UnitDMUsuarios.pas' {Form4};
@@ -26,7 +26,7 @@ begin
     begin
       Application.CreateForm(TFormMain, FormMain);
   Application.CreateForm(TFormConsultaLinha, FormConsultaLinha);
-  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TDMlinhas, DMlinhas);
   Application.CreateForm(TForm2, Form2);
   Application.CreateForm(TForm3, Form3);
   Application.CreateForm(TForm4, Form4);

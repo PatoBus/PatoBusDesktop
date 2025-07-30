@@ -7,12 +7,14 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
   FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, System.Net.URLClient,
+  System.Net.HttpClient, System.Net.HttpClientComponent ;
 
 type
-  TForm1 = class(TForm)
-    QConsultaLinhas: TFDQuery;
-    DSConsultaLinhas: TDataSource;
+  TDMlinhas = class(TForm)
+    NetHTTPClient1: TNetHTTPClient;
+    FDMemTable1: TFDMemTable;
+    DataSource1: TDataSource;
   private
     { Private declarations }
   public
@@ -20,7 +22,7 @@ type
   end;
 
 var
-  Form1: TForm1;
+  DMlinhas: TDMlinhas;
 
 implementation
 

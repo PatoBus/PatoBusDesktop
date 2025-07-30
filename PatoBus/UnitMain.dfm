@@ -936,6 +936,7 @@ object FormMain: TFormMain
       Caption = 'Consultas'
       object TConsultaLinhas: TMenuItem
         Caption = 'Linhas'
+        OnClick = TConsultaLinhasClick
       end
       object TConsultaRotas: TMenuItem
         Caption = 'Rotas'
