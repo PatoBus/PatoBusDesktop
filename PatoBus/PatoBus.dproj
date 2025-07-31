@@ -145,7 +145,7 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="UnitDMRotas.pas">
-            <Form>Form2</Form>
+            <Form>DMRotas</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="UnitDMParadas.pas">
@@ -154,6 +154,10 @@
         </DCCReference>
         <DCCReference Include="UnitDMUsuarios.pas">
             <Form>Form4</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="UnitConsultaRotas.pas">
+            <Form>FormConsultaRotas</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Base">

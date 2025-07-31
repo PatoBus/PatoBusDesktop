@@ -940,6 +940,7 @@ object FormMain: TFormMain
       end
       object TConsultaRotas: TMenuItem
         Caption = 'Rotas'
+        OnClick = TConsultaRotasClick
       end
       object TConsultaParadas: TMenuItem
         Caption = 'Paradas'

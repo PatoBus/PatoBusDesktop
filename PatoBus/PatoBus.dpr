@@ -10,9 +10,10 @@ uses
   Vcl.Themes,
   Vcl.Styles,
   UnitDMLinhas in 'UnitDMLinhas.pas' {DMlinhas},
-  UnitDMRotas in 'UnitDMRotas.pas' {Form2},
+  UnitDMRotas in 'UnitDMRotas.pas' {DMRotas},
   UnitDMParadas in 'UnitDMParadas.pas' {Form3},
-  UnitDMUsuarios in 'UnitDMUsuarios.pas' {Form4};
+  UnitDMUsuarios in 'UnitDMUsuarios.pas' {Form4},
+  UnitConsultaRotas in 'UnitConsultaRotas.pas' {FormConsultaRotas};
 
 {$R *.res}
 
@@ -27,9 +28,10 @@ begin
       Application.CreateForm(TFormMain, FormMain);
   Application.CreateForm(TFormConsultaLinha, FormConsultaLinha);
   Application.CreateForm(TDMlinhas, DMlinhas);
-  Application.CreateForm(TForm2, Form2);
+  Application.CreateForm(TDMRotas, DMRotas);
   Application.CreateForm(TForm3, Form3);
   Application.CreateForm(TForm4, Form4);
+  Application.CreateForm(TFormConsultaRotas, FormConsultaRotas);
   Application.Run;
     end
     else

@@ -1,7 +1,7 @@
 object FormConsultaLinha: TFormConsultaLinha
   Left = 0
   Top = 0
-  Caption = 'FormConsultaLinha'
+  Caption = 'Consulta Linha'
   ClientHeight = 441
   ClientWidth = 624
   Color = clBtnFace
