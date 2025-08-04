@@ -7,6 +7,7 @@ uses
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB,
   Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, System.JSON, System.Net.HttpClient,
   UnitDMRotas;
+
 type
   TFormConsultaRotas = class(TForm)
     Panel1: TPanel;
@@ -19,7 +20,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
-    procedure setGrid( id: String);
+    procedure FormatGridColumns;
   public
     { Public declarations }
   end;
@@ -33,10 +34,14 @@ implementation
 
 procedure TFormConsultaRotas.Button1Click(Sender: TObject);
 begin
-  setGrid('2');
+  // Chama o método LoadRotas do form dmRotas
+  dmRotas.LoadRotas('2');  // Exemplo, passando o ID 2 para a API
+
+  // Formatar as colunas do DBGrid
+  FormatGridColumns;
 end;
-procedure TFormConsultaRotas.FormClose(Sender: TObject;
-  var Action: TCloseAction);
+
+procedure TFormConsultaRotas.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   // Limpa o DataSet
   with dmRotas.FDMemTable1 do
@@ -50,103 +55,38 @@ begin
   DBGrid1.DataSource := nil;
   dmRotas.DataSource1.DataSet := nil;
 
-  // Libera o form da memória, se quiser
+  // Libera o form da memória
   Action := caFree;
 end;
 
 procedure TFormConsultaRotas.FormCreate(Sender: TObject);
 begin
-  // Cria o DataModule, se ainda não existir
+  // Cria o formulário dmRotas, se ainda não existir
   if not Assigned(dmRotas) then
     dmRotas := TdmRotas.Create(Self);
 
-  // Conecta o DBGrid ao DataSource
+  // Conecta o DBGrid ao DataSource do dmRotas
   if Assigned(dmRotas.DataSource1) then
     DBGrid1.DataSource := dmRotas.DataSource1;
-
-  // Carrega os dados iniciais
-  //setGrid('0');
 end;
 
-procedure TFormConsultaRotas.setGrid(id: String);
-var
-  Response: IHTTPResponse;
-  JSONArray: TJSONArray;
-  JSONValue: TJSONValue;
-  Item, Linha, Empresa: TJSONObject;
+procedure TFormConsultaRotas.FormatGridColumns;
 begin
-  try
-    Response := dmRotas.NetHTTPClient1.Get('http://localhost:8081/rotas/empresa/'+id);
-    JSONArray := TJSONObject.ParseJSONValue(Response.ContentAsString) as TJSONArray;
+  // Formatação das colunas do DBGrid
+  if DBGrid1.Columns.Count >= 4 then
+  begin
+    DBGrid1.Columns[0].Title.Caption := 'Nome da Rota';
+    DBGrid1.Columns[1].Title.Caption := 'Descrição';
+    DBGrid1.Columns[2].Title.Caption := 'Nome da Linha';
+    DBGrid1.Columns[3].Title.Caption := 'Valor';
 
-    if not Assigned(JSONArray) then
-      raise Exception.Create('Resposta JSON inválida.');
-
-    // Recriação segura do FDMemTable1
-    with dmRotas.FDMemTable1 do
-    begin
-      Active := False;
-      Close;
-      FieldDefs.Clear;
-      Fields.Clear;
-      IndexDefs.Clear;
-
-      FieldDefs.Add('rota_nome', ftString, 100);
-      FieldDefs.Add('rota_descricao', ftString, 255);
-      FieldDefs.Add('linha_nome', ftString, 100);
-      FieldDefs.Add('linha_valor', ftFloat);
-      CreateDataSet;
-      Open;
-    end;
-
-    // Preencher os dados
-    for JSONValue in JSONArray do
-    begin
-      Item := JSONValue as TJSONObject;
-      Linha := Item.GetValue<TJSONObject>('linha');
-      Empresa := Linha.GetValue<TJSONObject>('empresa');
-
-      with dmRotas.FDMemTable1 do
-      begin
-        Append;
-
-        FieldByName('rota_nome').AsString := Item.GetValue<string>('nome');
-        FieldByName('rota_descricao').AsString := Item.GetValue<string>('descricao');
-        FieldByName('linha_nome').AsString := Linha.GetValue<string>('nome');
-        FieldByName('linha_valor').AsFloat := Linha.GetValue<Double>('valor');
-
-
-      end;
-    end;
-
-    JSONArray.Free;
-
-    dmRotas.DataSource1.DataSet := dmRotas.FDMemTable1;
-    DBGrid1.DataSource := dmRotas.DataSource1;
-
-    // Ajustar visualmente as colunas
-    with DBGrid1 do
-    begin
-      if Columns.Count >= 4 then
-      begin
-
-        Columns[0].Title.Caption := 'Nome da Rota';
-        Columns[1].Title.Caption := 'Descrição';
-        Columns[2].Title.Caption := 'Nome da Linha';
-        Columns[3].Title.Caption := 'Valor';
-
-        Columns[0].Width := 100;
-        Columns[1].Width := 80;
-        Columns[2].Width := 130;
-        Columns[3].Width := 50;
-      end;
-    end;
-
-  except
-    on E: Exception do
-      ShowMessage('Erro ao consultar dados: ' + E.Message);
+    // Largura das colunas
+    DBGrid1.Columns[0].Width := 100;
+    DBGrid1.Columns[1].Width := 80;
+    DBGrid1.Columns[2].Width := 130;
+    DBGrid1.Columns[3].Width := 50;
   end;
 end;
 
-
 end.
+

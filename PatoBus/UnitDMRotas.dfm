@@ -1,16 +1,6 @@
 object DMRotas: TDMRotas
-  Left = 0
-  Top = 0
-  Caption = 'DMRotas'
-  ClientHeight = 441
-  ClientWidth = 624
-  Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -12
-  Font.Name = 'Segoe UI'
-  Font.Style = []
-  TextHeight = 15
+  Height = 559
+  Width = 710
   object NetHTTPClient1: TNetHTTPClient
     UserAgent = 'Embarcadero URI Client/1.0'
     Left = 200

@@ -1,0 +1,70 @@
+﻿unit UnitConsultaRotas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB,
+  Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, System.JSON, System.Net.HttpClient,
+  UnitDMRotas;
+
+type
+  TFormConsultaRotas = class(TForm)
+    Panel1: TPanel;
+    DBGrid1: TDBGrid;
+    Panel2: TPanel;
+    Splitter1: TSplitter;
+    Button1: TButton;
+    procedure Button1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FormConsultaRotas: TFormConsultaRotas;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFormConsultaRotas.Button1Click(Sender: TObject);
+begin
+  // Chama o método LoadRotas do form dmRotas
+  dmRotas.LoadRotas('2');  // Exemplo, passando o ID 2 para a API
+end;
+
+procedure TFormConsultaRotas.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  // Limpa o DataSet
+  with dmRotas.FDMemTable1 do
+  begin
+    Close;
+    FieldDefs.Clear;
+    Fields.Clear;
+  end;
+
+  // Desconecta do DataSource e do Grid
+  DBGrid1.DataSource := nil;
+  dmRotas.DataSource1.DataSet := nil;
+
+  // Libera o form da memória
+  Action := caFree;
+end;
+
+procedure TFormConsultaRotas.FormCreate(Sender: TObject);
+begin
+  // Cria o formulário dmRotas, se ainda não existir
+  if not Assigned(dmRotas) then
+    dmRotas := TdmRotas.Create(Self);
+
+  // Conecta o DBGrid ao DataSource do dmRotas
+  if Assigned(dmRotas.DataSource1) then
+    DBGrid1.DataSource := dmRotas.DataSource1;
+end;
+
+end.
+
