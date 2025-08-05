@@ -951,6 +951,42 @@ object FormConsultaLinha: TFormConsultaLinha
     Height = 253
     Align = alClient
     TabOrder = 1
+    ExplicitTop = -2
+    object Label1: TLabel
+      Left = 0
+      Top = 50
+      Width = 33
+      Height = 15
+      Caption = 'Nome'
+    end
+    object Label2: TLabel
+      Left = 240
+      Top = 50
+      Width = 51
+      Height = 15
+      Caption = 'Descricao'
+    end
+    object Label3: TLabel
+      Left = 1
+      Top = 100
+      Width = 26
+      Height = 15
+      Caption = 'Valor'
+    end
+    object Label5: TLabel
+      Left = 1
+      Top = 150
+      Width = 37
+      Height = 15
+      Caption = 'Pontos'
+    end
+    object Label4: TLabel
+      Left = 240
+      Top = 100
+      Width = 29
+      Height = 15
+      Caption = 'Linha'
+    end
     object Button1: TButton
       Left = 0
       Top = 0
@@ -959,6 +995,43 @@ object FormConsultaLinha: TFormConsultaLinha
       Caption = 'Consultar'
       TabOrder = 0
       OnClick = Button1Click
+    end
+    object Edit1: TEdit
+      Left = 0
+      Top = 70
+      Width = 145
+      Height = 23
+      TabOrder = 1
+    end
+    object Edit2: TEdit
+      Left = 240
+      Top = 70
+      Width = 145
+      Height = 23
+      TabOrder = 2
+    end
+    object Edit3: TEdit
+      Left = 0
+      Top = 120
+      Width = 145
+      Height = 23
+      TabOrder = 3
+    end
+    object Edit4: TEdit
+      Left = 0
+      Top = 170
+      Width = 385
+      Height = 23
+      TabOrder = 4
+    end
+    object ComboBox1: TComboBox
+      Left = 240
+      Top = 120
+      Width = 145
+      Height = 23
+      TabOrder = 5
+      Text = 'ComboBox1'
+      OnDropDown = ComboBox1DropDown
     end
   end
 end

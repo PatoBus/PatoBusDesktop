@@ -948,20 +948,8 @@ object FormMain: TFormMain
       object TConsultaUsuarios: TMenuItem
         Caption = 'Usuarios'
       end
-    end
-    object Cadastros: TMenuItem
-      Caption = 'Opera'#231#245'es'
-      object TCadastroLinhas: TMenuItem
-        Caption = 'Linhas'
-      end
-      object TCadastroParadas: TMenuItem
-        Caption = 'Paradas'
-      end
-      object TCadastroRotas: TMenuItem
-        Caption = 'Rotas'
-      end
-      object TCadastroUsuarios: TMenuItem
-        Caption = 'Usu'#225'rios'
+      object TOnibus: TMenuItem
+        Caption = #212'nibus'
       end
     end
   end

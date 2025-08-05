@@ -3,12 +3,14 @@ unit UnitDMRotas;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, System.Net.URLClient,
-  System.Net.HttpClient, System.Net.HttpClientComponent, FireDAC.Stan.Intf,
-  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
-  FireDAC.Phys.Intf, FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client, System.JSON;
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, System.JSON, Data.DB,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client, System.Net.HttpClient,
+  System.Net.HttpClientComponent, Vcl.StdCtrls, Vcl.ExtCtrls,
+  System.Net.URLClient, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf;
+
 
 type
   TdmRotas = class(TForm)
@@ -21,6 +23,7 @@ type
   public
     { Public declarations }
     procedure LoadRotas(const id: String);
+    procedure LoadLinhas(const idEmpresa: Integer; ComboBox: TComboBox);
   end;
 
 var
@@ -96,6 +99,44 @@ begin
   except
     on E: Exception do
       ShowMessage('Erro ao consultar dados: ' + E.Message);
+  end;
+end;
+
+procedure TdmRotas.LoadLinhas(const idEmpresa: Integer; ComboBox: TComboBox);
+var
+  Response: IHTTPResponse;
+  JSONArray: TJSONArray;
+  i: Integer;
+  LinhaObj: TJSONObject;
+begin
+  ComboBox.Items.Clear;
+  try
+    Response := NetHTTPClient1.Get('http://localhost:8081/linhas/empresa/' + idEmpresa.ToString);
+
+    if not Response.StatusCode in [200] then
+      raise Exception.Create('Erro HTTP: ' + Response.StatusCode.ToString);
+
+    JSONArray := TJSONObject.ParseJSONValue(Response.ContentAsString) as TJSONArray;
+
+    if not Assigned(JSONArray) then
+      raise Exception.Create('JSON inválido ou não é um array.');
+
+    for i := 0 to JSONArray.Count - 1 do
+    begin
+      LinhaObj := JSONArray.Items[i] as TJSONObject;
+      ComboBox.Items.Add(
+        LinhaObj.GetValue<Integer>('idLinha').ToString + ' - ' +
+        LinhaObj.GetValue<string>('nome'));
+    end;
+
+    if ComboBox.Items.Count > 0 then
+      ComboBox.ItemIndex := 0;
+
+    JSONArray.Free;
+
+  except
+    on E: Exception do
+      ShowMessage('Erro ao carregar linhas: ' + E.Message);
   end;
 end;
 

@@ -16,12 +16,8 @@ type
     ToolBar1: TToolBar;
     TConsultaParadas: TMenuItem;
     TConsultaUsuarios: TMenuItem;
-    Cadastros: TMenuItem;
-    TCadastroParadas: TMenuItem;
-    TCadastroLinhas: TMenuItem;
-    TCadastroRotas: TMenuItem;
-    TCadastroUsuarios: TMenuItem;
     TConsultaRotas: TMenuItem;
+    TOnibus: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure TConsultaLinhasClick(Sender: TObject);
     procedure TConsultaRotasClick(Sender: TObject);

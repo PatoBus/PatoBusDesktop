@@ -13,11 +13,23 @@ type
     Panel1: TPanel;
     DBGrid1: TDBGrid;
     Panel2: TPanel;
-    Splitter1: TSplitter;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label5: TLabel;
+    Label4: TLabel;
     Button1: TButton;
+    Edit1: TEdit;
+    Edit2: TEdit;
+    Edit3: TEdit;
+    Edit4: TEdit;
+    ComboBox1: TComboBox;
+     Splitter1: TSplitter;
+    Button2: TButton;
     procedure Button1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure ComboBox1DropDown(Sender: TObject);
   private
     { Private declarations }
     procedure FormatGridColumns;
@@ -68,6 +80,11 @@ begin
   // Conecta o DBGrid ao DataSource do dmRotas
   if Assigned(dmRotas.DataSource1) then
     DBGrid1.DataSource := dmRotas.DataSource1;
+end;
+
+procedure TFormConsultaRotas.ComboBox1DropDown(Sender: TObject);
+begin
+   dmRotas.LoadLinhas(1, ComboBox1);  // Carrega as linhas da empresa 1 ao abrir o dropdown
 end;
 
 procedure TFormConsultaRotas.FormatGridColumns;
