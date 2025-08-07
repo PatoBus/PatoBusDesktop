@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB,
   Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, System.JSON, System.Net.HttpClient,
-  UnitDMRotas;
+  UnitDMRotas, Vcl.Buttons, Vcl.DBCtrls;
 
 type
   TFormConsultaRotas = class(TForm)
@@ -15,21 +15,22 @@ type
     Panel2: TPanel;
     Label1: TLabel;
     Label2: TLabel;
-    Label3: TLabel;
     Label5: TLabel;
     Label4: TLabel;
-    Button1: TButton;
-    Edit1: TEdit;
-    Edit2: TEdit;
-    Edit3: TEdit;
-    Edit4: TEdit;
-    ComboBox1: TComboBox;
+    Button1: TButton;   //consultar
+    Edit1: TEdit;      //nome
+    Edit2: TEdit;      //valor
+    Edit4: TEdit;      //pontos
+    ComboBox1: TComboBox; //id linha
      Splitter1: TSplitter;
     Button2: TButton;
+    DBNavigator1: TDBNavigator;          //salvar
     procedure Button1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ComboBox1DropDown(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure DBNavigator1Click(Sender: TObject; Button: TNavigateBtn);
   private
     { Private declarations }
     procedure FormatGridColumns;
@@ -47,7 +48,7 @@ implementation
 procedure TFormConsultaRotas.Button1Click(Sender: TObject);
 begin
   // Chama o método LoadRotas do form dmRotas
-  dmRotas.LoadRotas('2');  // Exemplo, passando o ID 2 para a API
+  dmRotas.LoadRotas('1');  // Exemplo, passando o ID 2 para a API
 
   // Formatar as colunas do DBGrid
   FormatGridColumns;
@@ -82,26 +83,181 @@ begin
     DBGrid1.DataSource := dmRotas.DataSource1;
 end;
 
+procedure TFormConsultaRotas.Button2Click(Sender: TObject);
+var
+  nome, descricao, pontos: string;
+  idLinha: Integer;
+  itemSelecionado: string;
+begin
+  try
+    // Captura os dados dos campos
+    nome := Trim(Edit1.Text);
+    descricao := Trim(Edit2.Text);
+    pontos := Trim(Edit4.Text); // Edit3 é o valor, mas não usamos aqui
+
+    // Verifica se o nome e os pontos foram preenchidos
+    if nome = '' then
+      raise Exception.Create('O nome da rota é obrigatório.');
+
+    if pontos = '' then
+      raise Exception.Create('Os pontos da rota são obrigatórios.');
+
+    // Extrai o ID da linha a partir do ComboBox (esperando "1 - Nome da Linha")
+    itemSelecionado := ComboBox1.Text;
+    if itemSelecionado = '' then
+      raise Exception.Create('Selecione uma linha.');
+
+    idLinha := StrToIntDef(Copy(itemSelecionado, 1, Pos(' -', itemSelecionado) - 1), -1);
+    if idLinha = -1 then
+      raise Exception.Create('ID da linha inválido.');
+
+    // Chama o método PostRota (empresa com id fixo = 1)
+    dmRotas.PostRota(nome, pontos, descricao, idLinha);
+
+    // Atualiza a grid após salvar
+    dmRotas.LoadRotas('1');
+    FormatGridColumns;
+
+    // Limpa os campos do formulário
+    Edit1.Clear;
+    Edit2.Clear;
+    Edit4.Clear;
+    ComboBox1.ItemIndex := -1;
+
+  except
+    on E: Exception do
+      ShowMessage('Erro ao salvar rota: ' + E.Message);
+  end;
+end;
 procedure TFormConsultaRotas.ComboBox1DropDown(Sender: TObject);
 begin
    dmRotas.LoadLinhas(1, ComboBox1);  // Carrega as linhas da empresa 1 ao abrir o dropdown
 end;
 
+procedure TFormConsultaRotas.DBNavigator1Click(Sender: TObject; Button: TNavigateBtn);
+var
+  idRota, idRotaPosicionar: Int64;
+  nome, descricao, pontos: string;
+  idLinha: Integer;
+begin
+  case Button of
+    nbRefresh:
+      begin
+        dmRotas.LoadRotas('1');
+        FormatGridColumns;
+      end;
+
+    nbEdit:
+      begin
+        dmRotas.FDMemTable1.Edit;
+      end;
+
+    nbPost:
+      begin
+        dmRotas.FDMemTable1.Edit;
+        dmRotas.FDMemTable1.DisableControls;
+        if dmRotas.FDMemTable1.State in [dsEdit, dsInsert] then
+        begin
+          idRota := dmRotas.FDMemTable1.FieldByName('id_Rota').AsLargeInt;
+          nome := dmRotas.FDMemTable1.FieldByName('rota_nome').AsString;
+          descricao := dmRotas.FDMemTable1.FieldByName('rota_descricao').AsString;
+          pontos := dmRotas.FDMemTable1.FieldByName('pontos').AsString;
+          idLinha := dmRotas.FDMemTable1.FieldByName('id_Linha').AsInteger;
+
+          try
+            dmRotas.UpdateRota(idRota, nome, pontos, descricao, idLinha);
+            dmRotas.LoadRotas('1');
+            FormatGridColumns;
+          except
+            on E: Exception do
+              ShowMessage('Erro ao atualizar rota: ' + E.Message);
+          end;
+        end;
+        dmRotas.FDMemTable1.EnableControls;
+      end;
+
+    nbDelete:
+      begin
+        dmRotas.FDMemTable1.DisableControls;
+        try
+          idRota := dmRotas.FDMemTable1.FieldByName('id_Rota').AsLargeInt;
+
+          if MessageDlg('Confirma exclusão da rota?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+          begin
+            try
+              // Salva posição atual para tentar manter depois
+              idRotaPosicionar := idRota;
+
+              dmRotas.DeleteRota(idRota);
+              dmRotas.LoadRotas('1');
+
+              // Tenta posicionar o cursor no registro após exclusão
+              if not dmRotas.FDMemTable1.Locate('id_Rota', idRotaPosicionar, []) then
+              begin
+                // Se o registro excluído não existe mais, posiciona no próximo registro (primeiro)
+                if dmRotas.FDMemTable1.RecordCount > 0 then
+                  dmRotas.FDMemTable1.First;
+              end;
+
+              FormatGridColumns;
+            except
+              on E: Exception do
+                ShowMessage('Erro ao excluir rota: ' + E.Message);
+            end;
+          end;
+        finally
+          dmRotas.FDMemTable1.EnableControls;
+        end;
+      end;
+  end;
+end;
 procedure TFormConsultaRotas.FormatGridColumns;
 begin
-  // Formatação das colunas do DBGrid
-  if DBGrid1.Columns.Count >= 4 then
+  if DBGrid1.Columns.Count > 0 then
   begin
-    DBGrid1.Columns[0].Title.Caption := 'Nome da Rota';
-    DBGrid1.Columns[1].Title.Caption := 'Descrição';
-    DBGrid1.Columns[2].Title.Caption := 'Nome da Linha';
-    DBGrid1.Columns[3].Title.Caption := 'Valor';
+    // Esconde todas as colunas inicialmente
+    for var i := 0 to DBGrid1.Columns.Count - 1 do
+      DBGrid1.Columns[i].Visible := False;
 
-    // Largura das colunas
-    DBGrid1.Columns[0].Width := 100;
-    DBGrid1.Columns[1].Width := 80;
-    DBGrid1.Columns[2].Width := 130;
-    DBGrid1.Columns[3].Width := 50;
+    // Nome da Rota
+    with DBGrid1.Columns[DBGrid1.DataSource.DataSet.FieldDefs.IndexOf('rota_nome')] do
+    begin
+      Visible := True;
+      Title.Caption := 'Nome da Rota';
+      Width := 100;
+    end;
+
+    // Descrição
+    with DBGrid1.Columns[DBGrid1.DataSource.DataSet.FieldDefs.IndexOf('rota_descricao')] do
+    begin
+      Visible := True;
+      Title.Caption := 'Descrição';
+      Width := 80;
+    end;
+
+    // Nome da Linha
+    with DBGrid1.Columns[DBGrid1.DataSource.DataSet.FieldDefs.IndexOf('linha_nome')] do
+    begin
+      Visible := True;
+      Title.Caption := 'Nome da Linha';
+      Width := 130;
+    end;
+
+    // Valor
+    with DBGrid1.Columns[DBGrid1.DataSource.DataSet.FieldDefs.IndexOf('linha_valor')] do
+    begin
+      Visible := True;
+      Title.Caption := 'Valor';
+      Width := 50;
+    end;
+
+    // ID da Linha (novo campo visível)
+    with DBGrid1.Columns[DBGrid1.DataSource.DataSet.FieldDefs.IndexOf('id_linha')] do
+    begin
+      Visible := True;
+      Title.Caption := 'ID da Linha';
+      Width := 60;
+    end;
   end;
 end;
 

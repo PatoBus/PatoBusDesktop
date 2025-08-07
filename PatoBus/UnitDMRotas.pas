@@ -24,6 +24,9 @@ type
     { Public declarations }
     procedure LoadRotas(const id: String);
     procedure LoadLinhas(const idEmpresa: Integer; ComboBox: TComboBox);
+    procedure PostRota(const Nome, Pontos, Descricao: string; const IdLinha: Integer);
+    procedure UpdateRota(const Id: Int64; const Nome, Pontos, Descricao: string; const IdLinha: Integer);
+    procedure DeleteRota(const Id: Int64);
   end;
 
 var
@@ -37,10 +40,10 @@ implementation
 
 procedure TdmRotas.PopulateMemTableWithData(const JSONArray: TJSONArray);
 var
+  i: Integer;
   JSONValue: TJSONValue;
   Item, Linha, Empresa: TJSONObject;
 begin
-  // Recriação segura do FDMemTable1
   with FDMemTable1 do
   begin
     Active := False;
@@ -49,17 +52,24 @@ begin
     Fields.Clear;
     IndexDefs.Clear;
 
+    // Definição de todos os campos necessários
+    FieldDefs.Add('id_rota', ftInteger);
+    FieldDefs.Add('id_linha', ftInteger);
+    FieldDefs.Add('id_empresa', ftInteger);
     FieldDefs.Add('rota_nome', ftString, 100);
     FieldDefs.Add('rota_descricao', ftString, 255);
+    FieldDefs.Add('pontos', ftMemo);
     FieldDefs.Add('linha_nome', ftString, 100);
     FieldDefs.Add('linha_valor', ftFloat);
+
     CreateDataSet;
     Open;
   end;
 
-  // Preencher os dados
-  for JSONValue in JSONArray do
+  // Percorre de trás para frente para mostrar o primeiro no topo
+  for i := JSONArray.Count - 1 downto 0 do
   begin
+    JSONValue := JSONArray.Items[i];
     Item := JSONValue as TJSONObject;
     Linha := Item.GetValue<TJSONObject>('linha');
     Empresa := Linha.GetValue<TJSONObject>('empresa');
@@ -68,25 +78,44 @@ begin
     begin
       Append;
 
+      FieldByName('id_rota').AsInteger := Item.GetValue<Integer>('idRota');
+      FieldByName('id_linha').AsInteger := Linha.GetValue<Integer>('idLinha');
+      FieldByName('id_empresa').AsInteger := Empresa.GetValue<Integer>('idEmpresa');
       FieldByName('rota_nome').AsString := Item.GetValue<string>('nome');
       FieldByName('rota_descricao').AsString := Item.GetValue<string>('descricao');
+
+      if Item.GetValue('pontos') <> nil then
+        FieldByName('pontos').AsString := Item.GetValue<string>('pontos')
+      else
+        FieldByName('pontos').Clear;
+
       FieldByName('linha_nome').AsString := Linha.GetValue<string>('nome');
       FieldByName('linha_valor').AsFloat := Linha.GetValue<Double>('valor');
+
+      Post;
     end;
   end;
+
+  // Garante que o cursor fique no primeiro registro visual
+  FDMemTable1.First;
 end;
 
 procedure TdmRotas.LoadRotas(const id: String);
 var
   Response: IHTTPResponse;
   JSONArray: TJSONArray;
+  JsonStr: string;
 begin
   try
     // Chama a API para obter as rotas
     Response := NetHTTPClient1.Get('http://localhost:8081/rotas/empresa/' + id);
 
+    // Pega o conteúdo da resposta como string
+    JsonStr := Response.ContentAsString;
+
+
     // Converte a resposta para JSON
-    JSONArray := TJSONObject.ParseJSONValue(Response.ContentAsString) as TJSONArray;
+    JSONArray := TJSONObject.ParseJSONValue(JsonStr) as TJSONArray;
 
     if not Assigned(JSONArray) then
       raise Exception.Create('Resposta JSON inválida.');
@@ -101,6 +130,7 @@ begin
       ShowMessage('Erro ao consultar dados: ' + E.Message);
   end;
 end;
+
 
 procedure TdmRotas.LoadLinhas(const idEmpresa: Integer; ComboBox: TComboBox);
 var
@@ -138,6 +168,107 @@ begin
     on E: Exception do
       ShowMessage('Erro ao carregar linhas: ' + E.Message);
   end;
+end;
+
+procedure TdmRotas.PostRota(const Nome, Pontos, Descricao: string; const IdLinha: Integer);
+var
+  JSONObj, LinhaObj, EmpresaObj: TJSONObject;
+  Response: IHTTPResponse;
+  RequestBody: TStringStream;
+begin
+  JSONObj := TJSONObject.Create;
+  LinhaObj := TJSONObject.Create;
+  EmpresaObj := TJSONObject.Create;
+  try
+    // idLinha vindo do parâmetro
+    LinhaObj.AddPair('idLinha', TJSONNumber.Create(IdLinha));
+
+    // idEmpresa fixo como 1
+    EmpresaObj.AddPair('idEmpresa', TJSONNumber.Create(1));
+
+    // Monta o JSON da rota
+    JSONObj.AddPair('nome', Nome);
+    JSONObj.AddPair('pontos', Pontos);
+    JSONObj.AddPair('descricao', Descricao);
+    JSONObj.AddPair('linha', LinhaObj);
+    JSONObj.AddPair('empresa', EmpresaObj);
+
+    RequestBody := TStringStream.Create(JSONObj.ToJSON, TEncoding.UTF8);
+
+    Response := NetHTTPClient1.Post(
+      'http://localhost:8081/rotas',
+      RequestBody,
+      nil,
+      [TNameValuePair.Create('Content-Type', 'application/json')]
+    );
+
+    if Response.StatusCode in [200, 201] then
+      ShowMessage('Rota cadastrada com sucesso!')
+    else
+      ShowMessage('Erro ao cadastrar rota: ' + Response.StatusCode.ToString + ' - ' + Response.ContentAsString);
+
+  except
+    on E: Exception do
+      ShowMessage('Erro ao enviar POST: ' + E.Message);
+  end;
+end;
+
+procedure TdmRotas.UpdateRota(const Id: Int64; const Nome, Pontos, Descricao: string; const IdLinha: Integer);
+var
+  JSONObj, LinhaObj, EmpresaObj: TJSONObject;
+  Response: IHTTPResponse;
+  RequestBody: TStringStream;
+begin
+  JSONObj := TJSONObject.Create;
+  try
+    // Monta os objetos de linha e empresa
+    LinhaObj := TJSONObject.Create;
+    LinhaObj.AddPair('idLinha', TJSONNumber.Create(IdLinha));
+
+    EmpresaObj := TJSONObject.Create;
+    EmpresaObj.AddPair('idEmpresa', TJSONNumber.Create(1));
+
+    // Monta o JSON principal
+    JSONObj.AddPair('nome', Nome);
+    JSONObj.AddPair('pontos', Pontos);
+    JSONObj.AddPair('descricao', Descricao);
+    JSONObj.AddPair('linha', LinhaObj);     // JSONObj agora é dono de LinhaObj
+    JSONObj.AddPair('empresa', EmpresaObj); // JSONObj agora é dono de EmpresaObj
+
+    RequestBody := TStringStream.Create(JSONObj.ToJSON, TEncoding.UTF8);
+    try
+      Response := NetHTTPClient1.Put(
+        'http://localhost:8081/rotas/' + Id.ToString,
+        RequestBody,
+        nil,
+        [TNameValuePair.Create('Content-Type', 'application/json')]
+      );
+
+      if Response.StatusCode = 200 then
+        ShowMessage('Rota atualizada com sucesso!')
+      else
+        ShowMessage('Erro ao atualizar rota: ' + Response.StatusCode.ToString + ' - ' + Response.ContentAsString);
+
+    finally
+      RequestBody.Free;
+    end;
+
+  finally
+    // Apenas JSONObj é liberado; ele libera os filhos internos
+    JSONObj.Free;
+  end;
+end;
+
+procedure TdmRotas.DeleteRota(const Id: Int64);
+var
+  Response: IHTTPResponse;
+begin
+  Response := NetHTTPClient1.Delete('http://localhost:8081/rotas/' + Id.ToString);
+
+  if Response.StatusCode = 204 then
+    ShowMessage('Rota excluída com sucesso!')
+  else
+    raise Exception.Create('Erro ao excluir rota: ' + Response.StatusCode.ToString + ' - ' + Response.ContentAsString);
 end;
 
 end.
