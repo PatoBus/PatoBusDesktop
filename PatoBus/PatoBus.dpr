@@ -13,7 +13,8 @@ uses
   UnitDMRotas in 'UnitDMRotas.pas' {DMRotas},
   UnitDMParadas in 'UnitDMParadas.pas' {Form3},
   UnitDMUsuarios in 'UnitDMUsuarios.pas' {Form4},
-  UnitConsultaRotas in 'UnitConsultaRotas.pas' {FormConsultaRotas};
+  UnitConsultaRotas in 'UnitConsultaRotas.pas' {FormConsultaRotas},
+  UnitConnection in 'UnitConnection.pas' {FormConnection};
 
 {$R *.res}
 
@@ -32,6 +33,7 @@ begin
   Application.CreateForm(TForm3, Form3);
   Application.CreateForm(TForm4, Form4);
   Application.CreateForm(TFormConsultaRotas, FormConsultaRotas);
+  Application.CreateForm(TFormConnection, FormConnection);
   Application.Run;
     end
     else

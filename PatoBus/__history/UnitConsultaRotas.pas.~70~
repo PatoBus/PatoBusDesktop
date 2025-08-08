@@ -1,0 +1,120 @@
+﻿unit UnitConsultaRotas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB,
+  Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, System.JSON, System.Net.HttpClient,
+  UnitDMRotas, Vcl.Buttons, Vcl.DBCtrls,UnitDMLinhas;
+
+type
+  TFormConsultaRotas = class(TForm)
+    Panel1: TPanel;
+    DBGrid1: TDBGrid;
+    Panel2: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label5: TLabel;
+    Label4: TLabel;
+    Button1: TButton;   //consultar
+    Edit1: TEdit;      //nome
+    Edit2: TEdit;      //valor
+    Edit4: TEdit; //id linha
+     Splitter1: TSplitter;
+    Button2: TButton;
+    DBNavigator1: TDBNavigator;
+    DBLookupComboBox1: TDBLookupComboBox;          //salvar
+    procedure Button1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure Button2Click(Sender: TObject);
+  private
+    { Private declarations }
+
+  public
+    { Public declarations }
+  end;
+
+var
+  FormConsultaRotas: TFormConsultaRotas;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFormConsultaRotas.Button1Click(Sender: TObject);
+begin
+  // Chama o método LoadRotas do form dmRotas
+  dmRotas.initQRota
+  // Formatar as colunas do DBGrid
+end;
+
+procedure TFormConsultaRotas.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  // Limpa o DataSet
+  DMRotas.QRotas.Close;
+  DMLinhas.QLinhasComboBox.Close;
+  Action := caFree;
+end;
+
+procedure TFormConsultaRotas.FormCreate(Sender: TObject);
+begin
+
+  DMLinhas.InitLinhasComboBox;
+
+end;
+
+procedure TFormConsultaRotas.Button2Click(Sender: TObject);
+var
+  nome, descricao, pontos: string;
+  idLinha: Integer;
+  itemSelecionado: string;
+begin
+  //try
+//    // Captura os dados dos campos
+//    nome := Trim(Edit1.Text);
+//    descricao := Trim(Edit2.Text);
+//    pontos := Trim(Edit4.Text); // Edit3 é o valor, mas não usamos aqui
+//
+//    // Verifica se o nome e os pontos foram preenchidos
+//    if nome = '' then
+//      raise Exception.Create('O nome da rota é obrigatório.');
+//
+//    if pontos = '' then
+//      raise Exception.Create('Os pontos da rota são obrigatórios.');
+//
+//    // Extrai o ID da linha a partir do ComboBox (esperando "1 - Nome da Linha")
+//    itemSelecionado := ComboBox1.Text;
+//    if itemSelecionado = '' then
+//      raise Exception.Create('Selecione uma linha.');
+//
+//    idLinha := StrToIntDef(Copy(itemSelecionado, 1, Pos(' -', itemSelecionado) - 1), -1);
+//    if idLinha = -1 then
+//      raise Exception.Create('ID da linha inválido.');
+//
+//    // Chama o método PostRota (empresa com id fixo = 1)
+//    dmRotas.PostRota(nome, pontos, descricao, idLinha);
+//
+//    // Atualiza a grid após salvar
+//    dmRotas.LoadRotas('1');
+//    FormatGridColumns;
+//
+//
+//
+//    // Limpa os campos do formulário
+//    Edit1.Clear;
+//    Edit2.Clear;
+//    Edit4.Clear;
+//    ComboBox1.ItemIndex := -1;
+//
+//  except
+//    on E: Exception do
+//      ShowMessage('Erro ao salvar rota: ' + E.Message);
+//  end;
+end;
+
+
+
+end.
+

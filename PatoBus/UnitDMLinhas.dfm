@@ -11,25 +11,32 @@ object DMlinhas: TDMlinhas
   Font.Name = 'Segoe UI'
   Font.Style = []
   TextHeight = 15
-  object NetHTTPClient1: TNetHTTPClient
-    UserAgent = 'Embarcadero URI Client/1.0'
-    Left = 200
-    Top = 120
+  object DSLinhasComBoBox: TDataSource
+    DataSet = QLinhasComboBox
+    Left = 496
+    Top = 248
   end
-  object FDMemTable1: TFDMemTable
-    FetchOptions.AssignedValues = [evMode]
-    FetchOptions.Mode = fmAll
-    ResourceOptions.AssignedValues = [rvSilentMode]
-    ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
-    UpdateOptions.CheckRequired = False
-    UpdateOptions.AutoCommitUpdates = True
-    Left = 200
-    Top = 208
+  object QLinhasComboBox: TFDQuery
+    Connection = FormConnection.FDConnection1
+    SQL.Strings = (
+      'Select * from Linha where id_empresa=1')
+    Left = 496
+    Top = 168
   end
-  object DataSource1: TDataSource
-    DataSet = FDMemTable1
-    Left = 200
-    Top = 280
+  object FDConnection1: TFDConnection
+    Params.Strings = (
+      'Database=patobus'
+      'User_Name=root'
+      'DriverID=MySQL')
+    Connected = True
+    Left = 232
+    Top = 8
+  end
+  object FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink
+    VendorLib = 
+      'C:\Users\marco\Desktop\projetos\ifrn\projetointegrador2\PatoBusD' +
+      'esktop\PatoBus\Win64\Debug\libmysql.dll'
+    Left = 112
+    Top = 136
   end
 end

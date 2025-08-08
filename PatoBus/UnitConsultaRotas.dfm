@@ -911,6 +911,7 @@ object FormConsultaRotas: TFormConsultaRotas
     AA698EE2081B432C72D1C8F8A4391649446B6CEAEFE27531E2210A5F148CC0B4
     954220C0FF0301C01180D94BCD3A0000000049454E44AE426082}
   OnCreate = FormCreate
+  OnShow = FormShow
   TextHeight = 15
   object Splitter1: TSplitter
     Left = 0
@@ -935,12 +936,38 @@ object FormConsultaRotas: TFormConsultaRotas
       Width = 622
       Height = 183
       Align = alClient
+      DataSource = DMRotas.DataSource1
       TabOrder = 0
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
       TitleFont.Height = -12
       TitleFont.Name = 'Segoe UI'
       TitleFont.Style = []
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'nome_rota'
+          Title.Caption = 'Rota'
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'nome_linha'
+          Title.Caption = 'Linha'
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'valor'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'descricao'
+          Visible = True
+        end>
     end
   end
   object Panel2: TPanel
@@ -1008,22 +1035,13 @@ object FormConsultaRotas: TFormConsultaRotas
       Height = 23
       TabOrder = 3
     end
-    object ComboBox1: TComboBox
-      Left = 478
-      Top = 70
-      Width = 145
-      Height = 23
-      TabOrder = 4
-      Text = 'Selecione a linha'
-      OnDropDown = ComboBox1DropDown
-    end
     object Button2: TButton
       Left = 478
       Top = 140
       Width = 75
       Height = 25
       Caption = 'Salvar'
-      TabOrder = 5
+      TabOrder = 4
       OnClick = Button2Click
     end
     object DBNavigator1: TDBNavigator
@@ -1034,8 +1052,17 @@ object FormConsultaRotas: TFormConsultaRotas
       DataSource = DMRotas.DataSource1
       VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbDelete, nbEdit, nbPost, nbCancel, nbRefresh]
       Align = alBottom
+      TabOrder = 5
+    end
+    object DBLookupComboBox1: TDBLookupComboBox
+      Left = 478
+      Top = 70
+      Width = 145
+      Height = 23
+      KeyField = 'id_linha'
+      ListField = 'nome_linha'
+      ListSource = DMlinhas.DSLinhasComBoBox
       TabOrder = 6
-      OnClick = DBNavigator1Click
     end
   end
 end

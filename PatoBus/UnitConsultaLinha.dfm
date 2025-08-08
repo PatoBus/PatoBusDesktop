@@ -910,7 +910,6 @@ object FormConsultaLinha: TFormConsultaLinha
     275438095DF37A29868882A0901F8259AA71815FD27C2C059C9427BB42177305
     AA698EE2081B432C72D1C8F8A4391649446B6CEAEFE27531E2210A5F148CC0B4
     954220C0FF0301C01180D94BCD3A0000000049454E44AE426082}
-  OnCreate = FormCreate
   TextHeight = 15
   object Splitter1: TSplitter
     Left = 0
@@ -951,7 +950,6 @@ object FormConsultaLinha: TFormConsultaLinha
     Height = 253
     Align = alClient
     TabOrder = 1
-    ExplicitTop = -2
     object Label1: TLabel
       Left = 0
       Top = 50
@@ -994,7 +992,6 @@ object FormConsultaLinha: TFormConsultaLinha
       Height = 25
       Caption = 'Consultar'
       TabOrder = 0
-      OnClick = Button1Click
     end
     object Edit1: TEdit
       Left = 0
@@ -1031,7 +1028,6 @@ object FormConsultaLinha: TFormConsultaLinha
       Height = 23
       TabOrder = 5
       Text = 'ComboBox1'
-      OnDropDown = ComboBox1DropDown
     end
   end
 end
