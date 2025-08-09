@@ -1,0 +1,62 @@
+object DMlinhas: TDMlinhas
+  Left = 0
+  Top = 0
+  Caption = 'DMlinhas'
+  ClientHeight = 441
+  ClientWidth = 624
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  TextHeight = 15
+  object DSLinhasComBoBox: TDataSource
+    DataSet = QLinhasComboBox
+    Left = 504
+    Top = 248
+  end
+  object QLinhasComboBox: TFDQuery
+    Connection = FormConnection.FDConnection1
+    SQL.Strings = (
+      'Select * from Linha where id_empresa=1')
+    Left = 496
+    Top = 168
+  end
+  object QLinhas: TFDQuery
+    Connection = FormConnection.FDConnection1
+    SQL.Strings = (
+      'Select * from linha as l '
+      'inner join linha_horario as lh on l.id_linha = lh.linha_id'
+      'inner join horarios as h on lh.horario_id = h.id'
+      ''
+      'where id_empresa =1')
+    Left = 144
+    Top = 120
+    object QLinhasnome_linha: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'nome_linha'
+      Origin = 'nome_linha'
+      Size = 255
+    end
+    object QLinhasvalor: TBCDField
+      AutoGenerateValue = arDefault
+      FieldName = 'valor'
+      Origin = 'valor'
+      Precision = 10
+      Size = 2
+    end
+    object QLinhashora: TTimeField
+      AutoGenerateValue = arDefault
+      FieldName = 'hora'
+      Origin = 'hora'
+      ProviderFlags = []
+      ReadOnly = True
+    end
+  end
+  object DSLinhas: TDataSource
+    DataSet = QLinhas
+    Left = 144
+    Top = 200
+  end
+end

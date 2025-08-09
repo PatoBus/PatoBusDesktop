@@ -13,30 +13,113 @@ object DMlinhas: TDMlinhas
   TextHeight = 15
   object DSLinhasComBoBox: TDataSource
     DataSet = QLinhasComboBox
-    Left = 496
-    Top = 248
+    Left = 120
+    Top = 136
   end
   object QLinhasComboBox: TFDQuery
     Connection = FormConnection.FDConnection1
     SQL.Strings = (
       'Select * from Linha where id_empresa=1')
-    Left = 496
-    Top = 168
+    Left = 120
+    Top = 48
   end
-  object FDConnection1: TFDConnection
-    Params.Strings = (
-      'Database=patobus'
-      'User_Name=root'
-      'DriverID=MySQL')
-    Connected = True
-    Left = 232
-    Top = 8
+  object QLinhas: TFDQuery
+    Connection = FormConnection.FDConnection1
+    SQL.Strings = (
+      'Select * from linha as l '
+      'inner join linha_horario as lh on l.id_linha = lh.linha_id'
+      'inner join horarios as h on lh.horario_id = h.id'
+      ''
+      'where id_empresa =1')
+    Left = 24
+    Top = 48
+    object QLinhasnome_linha: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'nome_linha'
+      Origin = 'nome_linha'
+      Size = 255
+    end
+    object QLinhasvalor: TBCDField
+      AutoGenerateValue = arDefault
+      FieldName = 'valor'
+      Origin = 'valor'
+      DisplayFormat = '0.00'
+      Precision = 10
+      Size = 2
+    end
+    object QLinhashora: TTimeField
+      AutoGenerateValue = arDefault
+      FieldName = 'hora'
+      Origin = 'hora'
+      ProviderFlags = []
+      ReadOnly = True
+    end
+    object QLinhasid_linha: TLargeintField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'id_linha'
+      Origin = 'id_linha'
+      ProviderFlags = [pfInWhere, pfInKey]
+    end
+    object QLinhasid_empresa: TLargeintField
+      FieldName = 'id_empresa'
+      Origin = 'id_empresa'
+      Required = True
+    end
+    object QLinhasid: TLargeintField
+      AutoGenerateValue = arDefault
+      FieldName = 'id'
+      Origin = 'id'
+      ProviderFlags = []
+      ReadOnly = True
+    end
+    object QLinhashorario_id: TLargeintField
+      AutoGenerateValue = arDefault
+      FieldName = 'horario_id'
+      Origin = 'horario_id'
+      ProviderFlags = []
+      ReadOnly = True
+    end
+    object QLinhaslinha_id: TLargeintField
+      AutoGenerateValue = arDefault
+      FieldName = 'linha_id'
+      Origin = 'linha_id'
+      ProviderFlags = []
+      ReadOnly = True
+    end
+    object QLinhasid_1: TLargeintField
+      AutoGenerateValue = arDefault
+      FieldName = 'id_1'
+      Origin = 'id'
+      ProviderFlags = []
+      ReadOnly = True
+    end
   end
-  object FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink
-    VendorLib = 
-      'C:\Users\marco\Desktop\projetos\ifrn\projetointegrador2\PatoBusD' +
-      'esktop\PatoBus\Win64\Debug\libmysql.dll'
-    Left = 112
+  object DSLinhas: TDataSource
+    DataSet = QLinhas
+    Left = 24
+    Top = 136
+  end
+  object QLinhaHorarios: TFDQuery
+    Connection = FormConnection.FDConnection1
+    SQL.Strings = (
+      'Select * from horarios ')
+    Left = 448
+    Top = 56
+    object QLinhaHorariosid: TLargeintField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'id'
+      Origin = 'id'
+      ProviderFlags = [pfInWhere, pfInKey]
+    end
+    object QLinhaHorarioshora: TTimeField
+      AutoGenerateValue = arDefault
+      FieldName = 'hora'
+      Origin = 'hora'
+    end
+  end
+  object DSLinhaHorarios: TDataSource
+    DataSet = QLinhaHorarios
+    Left = 448
     Top = 136
   end
 end

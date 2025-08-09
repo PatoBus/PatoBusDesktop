@@ -17,6 +17,7 @@ object DMRotas: TDMRotas
     Top = 296
   end
   object QRotas: TFDQuery
+    BeforeDelete = QRotasBeforeDelete
     Connection = FormConnection.FDConnection1
     SQL.Strings = (
       'select * from rota '
@@ -48,21 +49,33 @@ object DMRotas: TDMRotas
       Precision = 10
       Size = 2
     end
-    object QRotasdescricao: TMemoField
-      AutoGenerateValue = arDefault
-      FieldName = 'descricao'
-      Origin = 'descricao'
-      BlobType = ftMemo
-    end
     object QRotasnome_rota: TStringField
       AutoGenerateValue = arDefault
       FieldName = 'nome_rota'
       Origin = 'nome_rota'
       Size = 255
     end
+    object QRotasdescricao: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'descricao'
+      Origin = 'descricao'
+      Size = 255
+    end
+    object QRotasid_rota: TLargeintField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'id_rota'
+      Origin = 'id_rota'
+      ProviderFlags = [pfInWhere, pfInKey]
+    end
   end
   object QInsertRotas: TFDQuery
+    Connection = FormConnection.FDConnection1
     Left = 144
     Top = 144
+  end
+  object QDeleteRotas: TFDQuery
+    Connection = FormConnection.FDConnection1
+    Left = 424
+    Top = 120
   end
 end

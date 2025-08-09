@@ -16,11 +16,26 @@ type
   TDMlinhas = class(TForm)
     DSLinhasComBoBox: TDataSource;
     QLinhasComboBox: TFDQuery;
-    FDConnection1: TFDConnection;
-    FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink;
+    QLinhas: TFDQuery;
+    DSLinhas: TDataSource;
+    QLinhasnome_linha: TStringField;
+    QLinhasvalor: TBCDField;
+    QLinhashora: TTimeField;
+    QLinhasid_linha: TLargeintField;
+    QLinhasid_empresa: TLargeintField;
+    QLinhasid: TLargeintField;
+    QLinhashorario_id: TLargeintField;
+    QLinhaslinha_id: TLargeintField;
+    QLinhasid_1: TLargeintField;
+    QLinhaHorarios: TFDQuery;
+    DSLinhaHorarios: TDataSource;
+    QLinhaHorariosid: TLargeintField;
+    QLinhaHorarioshora: TTimeField;
   private
   public
     procedure InitLinhasComboBox;
+    procedure InitLinhas;
+    procedure InitLinhasHorarios;
   end;
 
 var
@@ -32,8 +47,29 @@ implementation
 
 procedure TDMLinhas.InitLinhasComboBox;
 begin
-  QLinhasComboBox.Close;
+  if QLinhasComboBox.Active then
+  begin
+    QLinhasComboBox.Close;
+  end;
   QLinhasComboBox.Open;
+end;
+
+procedure TDMLinhas.InitLinhasHorarios;
+begin
+  if QLinhaHorarios.Active then
+  begin
+    QLinhaHorarios.Close;
+  end;
+  QLinhaHorarios.Open;
+end;
+
+procedure TDMLinhas.InitLinhas;
+begin
+  if QLinhas.Active then
+  begin
+    QLinhas.Close;
+  end;
+  QLinhas.Open;
 end;
 
 end.

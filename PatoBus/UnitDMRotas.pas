@@ -19,9 +19,12 @@ type
     QRotaspontos: TMemoField;
     QRotasnome_linha: TStringField;
     QRotasvalor: TBCDField;
-    QRotasdescricao: TMemoField;
     QRotasnome_rota: TStringField;
     QInsertRotas: TFDQuery;
+    QRotasdescricao: TStringField;
+    QDeleteRotas: TFDQuery;
+    QRotasid_rota: TLargeintField;
+    procedure QRotasBeforeDelete(DataSet: TDataSet);
   private
     { Private declarations }
 
@@ -42,8 +45,17 @@ implementation
 { TdmRotas }
 procedure TDMrotas.initQRota;
 begin
-  QRotas.close;
+  if QRotas.Active then
+  begin
+    QRotas.close;
+  end;
   QRotas.Open;
+end;
+procedure TdmRotas.QRotasBeforeDelete(DataSet: TDataSet);
+begin
+  QDeleteRotas.SQL.Text := 'Delete from rota_paradas where id_rota =:id_rota';
+  QDeleteRotas.ParamByName('id_rota').AsInteger := QRotasid_rota.AsInteger;
+  QDeleteRotas.ExecSQL;
 end;
 function TDMRotas.SalvarRota(Descricao, nome_rota ,pontos: string;id_linha,id_empresa:integer):string;
 begin

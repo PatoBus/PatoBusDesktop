@@ -1,0 +1,46 @@
+unit UnitDMLinhas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, System.Net.URLClient,
+  System.Net.HttpClient, System.Net.HttpClientComponent, System.JSON,UnitConnection,
+  FireDAC.UI.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Phys,
+  FireDAC.Phys.MySQL, FireDAC.Phys.MySQLDef, FireDAC.VCLUI.Wait;
+
+type
+  TDMlinhas = class(TForm)
+    DSLinhasComBoBox: TDataSource;
+    QLinhasComboBox: TFDQuery;
+    QLinhas: TFDQuery;
+    DSLinhas: TDataSource;
+    QLinhasnome_linha: TStringField;
+    QLinhasvalor: TBCDField;
+    QLinhashora: TTimeField;
+  private
+  public
+    procedure InitLinhasComboBox;
+  end;
+
+var
+  DMlinhas: TDMlinhas;
+
+implementation
+
+{$R *.dfm}
+
+procedure TDMLinhas.InitLinhasComboBox;
+begin
+  if QLinhasComboBox.Active then
+  begin
+    QLinhasComboBox.Close;
+  end;
+  QLinhasComboBox.Open;
+end;
+
+end.
+

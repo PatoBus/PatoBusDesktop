@@ -17,10 +17,10 @@ type
     Label2: TLabel;
     Label5: TLabel;
     Label4: TLabel;
-    Button1: TButton;   //consultar
-    Edit1: TEdit;      //nome
-    Edit2: TEdit;      //valor
-    Edit4: TEdit; //id linha
+    Button1: TButton;
+    Edit1: TEdit;
+    Edit2: TEdit;
+    Edit4: TEdit;
      Splitter1: TSplitter;
     Button2: TButton;
     DBNavigator1: TDBNavigator;
@@ -56,7 +56,8 @@ begin
   // Limpa o DataSet
   DMRotas.QRotas.Close;
   DMLinhas.QLinhasComboBox.Close;
-  Action := caFree;
+ // DBLookupComboBox1.Text :='';
+  //Action := caFree;
 end;
 
 procedure TFormConsultaRotas.FormCreate(Sender: TObject);
@@ -77,47 +78,42 @@ var
   idLinha: Integer;
   itemSelecionado: string;
 begin
-  //try
-//    // Captura os dados dos campos
-//    nome := Trim(Edit1.Text);
-//    descricao := Trim(Edit2.Text);
-//    pontos := Trim(Edit4.Text); // Edit3 é o valor, mas não usamos aqui
-//
-//    // Verifica se o nome e os pontos foram preenchidos
-//    if nome = '' then
-//      raise Exception.Create('O nome da rota é obrigatório.');
-//
-//    if pontos = '' then
-//      raise Exception.Create('Os pontos da rota são obrigatórios.');
-//
-//    // Extrai o ID da linha a partir do ComboBox (esperando "1 - Nome da Linha")
-//    itemSelecionado := ComboBox1.Text;
-//    if itemSelecionado = '' then
-//      raise Exception.Create('Selecione uma linha.');
-//
-//    idLinha := StrToIntDef(Copy(itemSelecionado, 1, Pos(' -', itemSelecionado) - 1), -1);
-//    if idLinha = -1 then
-//      raise Exception.Create('ID da linha inválido.');
-//
-//    // Chama o método PostRota (empresa com id fixo = 1)
-//    dmRotas.PostRota(nome, pontos, descricao, idLinha);
-//
-//    // Atualiza a grid após salvar
-//    dmRotas.LoadRotas('1');
-//    FormatGridColumns;
-//
-//
-//
-//    // Limpa os campos do formulário
-//    Edit1.Clear;
-//    Edit2.Clear;
-//    Edit4.Clear;
-//    ComboBox1.ItemIndex := -1;
-//
-//  except
-//    on E: Exception do
-//      ShowMessage('Erro ao salvar rota: ' + E.Message);
-//  end;
+  ShowMessage(VarToStr(DBLookupComboBox1.KeyValue));
+
+    // Captura os dados dos campos
+    nome := Trim(Edit1.Text);
+    descricao := Trim(Edit2.Text);
+    pontos := Trim(Edit4.Text); // Edit3 é o valor, mas não usamos aqui
+
+    // Verifica se o nome e os pontos foram preenchidos
+    if nome = '' then
+      raise Exception.Create('O nome da rota é obrigatório.');
+
+    if pontos = '' then
+      raise Exception.Create('Os pontos da rota são obrigatórios.');
+
+    // Extrai o ID da linha a partir do ComboBox (esperando "1 - Nome da Linha")
+    itemSelecionado := DBLookupComboBox1.Text;
+    if itemSelecionado = '' then
+      raise Exception.Create('Selecione uma linha.');
+
+    idLinha := DBLookupComboBox1.KeyValue;
+    if idLinha = -1 then
+      raise Exception.Create('ID da linha inválido.');
+
+    // Chama o método PostRota (empresa com id fixo = 1)
+    ShowMessage(dmRotas.SalvarRota(descricao,nome, pontos,  idLinha,1));
+
+    // Atualiza a grid após salvar
+    dmRotas.initQRota;
+
+
+
+    // Limpa os campos do formulário
+    Edit1.Clear;
+    Edit2.Clear;
+    Edit4.Clear;
+
 end;
 
 
