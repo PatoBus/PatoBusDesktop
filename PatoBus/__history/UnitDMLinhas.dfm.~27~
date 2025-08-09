@@ -129,7 +129,6 @@ object DMlinhas: TDMlinhas
     Top = 232
   end
   object QDeleteLinhaHorario: TFDQuery
-    Connection = FormConnection.FDConnection1
     Left = 128
     Top = 232
   end

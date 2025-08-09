@@ -79,7 +79,7 @@ begin
   QDeleteLinhaHorario.ExecSQL;
 
   ShowMessage ('Linha ' + nomelinha + ' excluída com sucesso');
-
+  //InitLinhas;
 
 end;
 

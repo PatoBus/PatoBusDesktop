@@ -70,16 +70,13 @@ end;
 procedure TDMlinhas.QLinhasBeforeDelete(DataSet: TDataSet);
 var nomelinha:string;
 begin
-        nomelinha:= QLinhasnome_linha.AsString;
+  nomelinha:= QLinhasnome_linha.AsString;
   QDeleteLinhaHorario.SQL.Text :=('Delete from linha_horario where linha_id= :linha_id');
   QDeleteLinhaHorario.ParamByName('linha_id').AsInteger := QLinhasid_linha.AsInteger;
   QDeleteLinhaHorario.ExecSQL;
-  QDeleteLinhaHorario.SQL.Text :=('Delete from  Onibus where linha_id= :linha_id');
-  QDeleteLinhaHorario.ParamByName('linha_id').AsInteger := QLinhasid_linha.AsInteger;
-  QDeleteLinhaHorario.ExecSQL;
 
-  ShowMessage ('Linha ' + nomelinha + ' excluída com sucesso');
-
+  ShowMessage ('Linha ' + nomelinha + 'Excluída com sucesso');
+  InitLinhas;
 
 end;
 

@@ -24,7 +24,6 @@ object DMlinhas: TDMlinhas
     Top = 48
   end
   object QLinhas: TFDQuery
-    BeforeDelete = QLinhasBeforeDelete
     Connection = FormConnection.FDConnection1
     SQL.Strings = (
       'Select * from linha as l '
@@ -126,11 +125,6 @@ object DMlinhas: TDMlinhas
   object QInsertLinhas: TFDQuery
     Connection = FormConnection.FDConnection1
     Left = 24
-    Top = 232
-  end
-  object QDeleteLinhaHorario: TFDQuery
-    Connection = FormConnection.FDConnection1
-    Left = 128
     Top = 232
   end
 end

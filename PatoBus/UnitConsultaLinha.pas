@@ -46,13 +46,14 @@ procedure TFormConsultaLinha.Button1Click(Sender: TObject);
 begin
   // Chama o método LoadRotas do form dmRotas
   dmLinhas.InitLinhas
-  // Formatar as colunas do DBGrid
+
 end;
 
 procedure TFormConsultaLinha.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   // Limpa o DataSet
   DMLinhas.QLinhasComboBox.Close;
+  DMLinhas.QLinhas.Close;
  // DBLookupComboBox1.Text :='';
   //Action := caFree;
 end;
@@ -72,32 +73,30 @@ end;
 procedure TFormConsultaLinha.Button2Click(Sender: TObject);
 var
   nome, descricao, pontos: string;
-  idLinha: Integer;
+  idLinha,horario_id,valor: Integer;
   itemSelecionado: string;
 begin
-  ShowMessage(VarToStr(DBLookupComboBox1.KeyValue));
+
 
     // Captura os dados dos campos
     nome := Trim(Edit1.Text);
-    descricao := Trim(Edit2.Text);
-
-    if pontos = '' then
-      raise Exception.Create('Os pontos da rota são obrigatórios.');
+    valor := StrToInt((Trim(Edit2.Text)));
 
     // Extrai o ID da linha a partir do ComboBox (esperando "1 - Nome da Linha")
     itemSelecionado := DBLookupComboBox1.Text;
     if itemSelecionado = '' then
       raise Exception.Create('Selecione uma linha.');
 
-    idLinha := DBLookupComboBox1.KeyValue;
-    if idLinha = -1 then
+    horario_id := DBLookupComboBox1.KeyValue;
+    if horario_id = -1 then
       raise Exception.Create('ID da linha inválido.');
 
+
     // Chama o método PostRota (empresa com id fixo = 1)
-    //ShowMessage(dmRotas.SalvarRota(descricao,nome, pontos,  idLinha,1));
+    ShowMessage(dmLinhas.Salvarlinha(idLinha,nome,valor,1,horario_id));
 
     // Atualiza a grid após salvar
-    //dmRotas.initQRota;
+    dmLinhas.InitLinhas;
 
 
 

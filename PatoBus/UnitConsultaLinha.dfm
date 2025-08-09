@@ -910,6 +910,7 @@ object FormConsultaLinha: TFormConsultaLinha
     275438095DF37A29868882A0901F8259AA71815FD27C2C059C9427BB42177305
     AA698EE2081B432C72D1C8F8A4391649446B6CEAEFE27531E2210A5F148CC0B4
     954220C0FF0301C01180D94BCD3A0000000049454E44AE426082}
+  OnClose = FormClose
   OnShow = FormShow
   TextHeight = 15
   object Splitter1: TSplitter
@@ -947,7 +948,7 @@ object FormConsultaLinha: TFormConsultaLinha
           Expanded = False
           FieldName = 'nome_linha'
           Title.Caption = 'Linha'
-          Width = 100
+          Width = 200
           Visible = True
         end
         item
@@ -973,7 +974,6 @@ object FormConsultaLinha: TFormConsultaLinha
     Height = 253
     Align = alClient
     TabOrder = 1
-    ExplicitTop = -2
     object Label1: TLabel
       Left = 0
       Top = 50
@@ -1033,7 +1033,7 @@ object FormConsultaLinha: TFormConsultaLinha
       Top = 227
       Width = 622
       Height = 25
-      DataSource = DMRotas.DataSource1
+      DataSource = DMlinhas.DSLinhas
       VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbDelete, nbEdit, nbPost, nbCancel, nbRefresh]
       Align = alBottom
       TabOrder = 4

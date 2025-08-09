@@ -31,10 +31,13 @@ type
     DSLinhaHorarios: TDataSource;
     QLinhaHorariosid: TLargeintField;
     QLinhaHorarioshora: TTimeField;
+    QInsertLinhas: TFDQuery;
   private
   public
     procedure InitLinhasComboBox;
     procedure InitLinhas;
+    procedure InitLinhasHorarios;
+    function Salvarlinha(linha_id:integer;nome_linha:string;valor:Double;id_empresa,horario_id:integer):string;
   end;
 
 var
@@ -53,6 +56,15 @@ begin
   QLinhasComboBox.Open;
 end;
 
+procedure TDMLinhas.InitLinhasHorarios;
+begin
+  if QLinhaHorarios.Active then
+  begin
+    QLinhaHorarios.Close;
+  end;
+  QLinhaHorarios.Open;
+end;
+
 procedure TDMLinhas.InitLinhas;
 begin
   if QLinhas.Active then
@@ -61,6 +73,39 @@ begin
   end;
   QLinhas.Open;
 end;
+
+function TDMLinhas.Salvarlinha(linha_id: integer; nome_linha: string; valor: Double; id_empresa, horario_id: integer): string;
+begin
+  // Inserção na tabela linha
+  QInsertLinhas.SQL.Text :=
+    'INSERT INTO linha (nome_linha, valor, id_empresa) ' +
+    'VALUES (:nome_linha, :valor, :id_empresa)';
+
+  QInsertLinhas.ParamByName('nome_linha').AsString := nome_linha;
+  QInsertLinhas.ParamByName('valor').AsFloat := valor;
+  QInsertLinhas.ParamByName('id_empresa').AsInteger := id_empresa;
+
+  QInsertLinhas.ExecSQL;
+
+  // Obter o ID gerado (se id_linha for auto-incremento)
+  QInsertLinhas.SQL.Text := 'SELECT LAST_INSERT_ID()';
+  QInsertLinhas.Open;
+  linha_id := QInsertLinhas.Fields[0].AsInteger;
+
+  // Inserção na tabela linha_horario
+  QInsertLinhas.SQL.Text :=
+    'INSERT INTO linha_horario (horario_id, linha_id) ' +
+    'VALUES (:horario_id, :linha_id)';
+
+  QInsertLinhas.ParamByName('horario_id').AsInteger := horario_id;
+  QInsertLinhas.ParamByName('linha_id').AsInteger := linha_id;
+
+  QInsertLinhas.ExecSQL;
+
+  // Retorno
+  result := 'Linha: ' + nome_linha + ' criada com sucesso';
+end;
+
 
 end.
 
