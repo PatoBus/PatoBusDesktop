@@ -5,6 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs,UnitLogin, Vcl.Menus, Vcl.ToolWin,UnitConsultaLinha,UnitConsultaRotas,
+  UnitConsultaOnibus,
   Vcl.ComCtrls;
 
 type
@@ -21,6 +22,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure TConsultaLinhasClick(Sender: TObject);
     procedure TConsultaRotasClick(Sender: TObject);
+    procedure TOnibusClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -53,6 +55,14 @@ begin
     Application.CreateForm(TFormConsultaRotas, FormConsultaRotas);
 
     FormConsultaRotas.Show;
+end;
+
+procedure TFormMain.TOnibusClick(Sender: TObject);
+begin
+      if not Assigned(FormConsultaOnibus) then
+    Application.CreateForm(TFormConsultaRotas, FormConsultaOnibus);
+
+    FormConsultaOnibus.Show;
 end;
 
 end.

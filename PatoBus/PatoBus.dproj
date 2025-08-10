@@ -153,7 +153,7 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="UnitDMUsuarios.pas">
-            <Form>Form4</Form>
+            <Form>DMUsuario</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="UnitConsultaRotas.pas">
@@ -162,6 +162,14 @@
         </DCCReference>
         <DCCReference Include="UnitConnection.pas">
             <Form>FormConnection</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="UnitConsultaOnibus.pas">
+            <Form>FormConsultaOnibus</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="UnitDMOnibus.pas">
+            <Form>DMOnibus</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Base">
@@ -199,12 +207,6 @@
                 <DeployFile LocalName="Win64\Debug\PatoBus.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win64">
                         <RemoteName>PatoBus.exe</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="Win64\Debug\PatoBus.rsm" Configuration="Debug" Class="DebugSymbols">
-                    <Platform Name="Win64">
-                        <RemoteName>PatoBus.rsm</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

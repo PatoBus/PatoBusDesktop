@@ -1,0 +1,71 @@
+object DMOnibus: TDMOnibus
+  Left = 0
+  Top = 0
+  Caption = 'DMOnibus'
+  ClientHeight = 441
+  ClientWidth = 624
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  TextHeight = 15
+  object QOnibus: TFDQuery
+    Connection = FormConnection.FDConnection1
+    SQL.Strings = (
+      'Select * from onibus'
+      'inner join linha on onibus.id_linha  = linha.id_linha'
+      ''
+      'where id_empresa=1')
+    Left = 536
+    Top = 48
+    object QOnibusid_onibus: TLargeintField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'id_onibus'
+      Origin = 'id_onibus'
+      ProviderFlags = [pfInWhere, pfInKey]
+    end
+    object QOnibusgps_caractere_atual: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'gps_caractere_atual'
+      Origin = 'gps_caractere_atual'
+      Size = 255
+    end
+    object QOnibusplaca_de: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'placa_de'
+      Origin = 'placa_de'
+      Size = 255
+    end
+    object QOnibusid_linha: TLargeintField
+      FieldName = 'id_linha'
+      Origin = 'id_linha'
+      Required = True
+    end
+    object QOnibusnome_linha: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'nome_linha'
+      Origin = 'nome_linha'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 255
+    end
+    object QOnibusvalor: TBCDField
+      AutoGenerateValue = arDefault
+      FieldName = 'valor'
+      Origin = 'valor'
+      ProviderFlags = []
+      ReadOnly = True
+      Precision = 10
+      Size = 2
+    end
+    object QOnibusid_empresa: TLargeintField
+      AutoGenerateValue = arDefault
+      FieldName = 'id_empresa'
+      Origin = 'id_empresa'
+      ProviderFlags = []
+      ReadOnly = True
+    end
+  end
+end

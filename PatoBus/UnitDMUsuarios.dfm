@@ -1,7 +1,7 @@
-object Form4: TForm4
+object DMUsuario: TDMUsuario
   Left = 0
   Top = 0
-  Caption = 'Form4'
+  Caption = 'DMUsuario'
   ClientHeight = 441
   ClientWidth = 624
   Color = clBtnFace
@@ -11,4 +11,9 @@ object Form4: TForm4
   Font.Name = 'Segoe UI'
   Font.Style = []
   TextHeight = 15
+  object QUsuarioLogin: TFDQuery
+    Connection = FormConnection.FDConnection1
+    Left = 176
+    Top = 80
+  end
 end

@@ -12,9 +12,11 @@ uses
   UnitDMLinhas in 'UnitDMLinhas.pas' {DMlinhas},
   UnitDMRotas in 'UnitDMRotas.pas' {DMRotas},
   UnitDMParadas in 'UnitDMParadas.pas' {Form3},
-  UnitDMUsuarios in 'UnitDMUsuarios.pas' {Form4},
+  UnitDMUsuarios in 'UnitDMUsuarios.pas' {DMUsuario},
   UnitConsultaRotas in 'UnitConsultaRotas.pas' {FormConsultaRotas},
-  UnitConnection in 'UnitConnection.pas' {FormConnection};
+  UnitConnection in 'UnitConnection.pas' {FormConnection},
+  UnitConsultaOnibus in 'UnitConsultaOnibus.pas' {FormConsultaOnibus},
+  UnitDMOnibus in 'UnitDMOnibus.pas' {DMOnibus};
 
 {$R *.res}
 
@@ -31,9 +33,11 @@ begin
   Application.CreateForm(TDMlinhas, DMlinhas);
   Application.CreateForm(TDMRotas, DMRotas);
   Application.CreateForm(TForm3, Form3);
-  Application.CreateForm(TForm4, Form4);
+  Application.CreateForm(TDMUsuario, DMUsuario);
   Application.CreateForm(TFormConsultaRotas, FormConsultaRotas);
   Application.CreateForm(TFormConnection, FormConnection);
+  Application.CreateForm(TFormConsultaOnibus, FormConsultaOnibus);
+  Application.CreateForm(TDMOnibus, DMOnibus);
   Application.Run;
     end
     else

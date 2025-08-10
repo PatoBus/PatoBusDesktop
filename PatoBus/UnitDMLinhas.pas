@@ -74,7 +74,8 @@ begin
   QDeleteLinhaHorario.SQL.Text :=('Delete from linha_horario where linha_id= :linha_id');
   QDeleteLinhaHorario.ParamByName('linha_id').AsInteger := QLinhasid_linha.AsInteger;
   QDeleteLinhaHorario.ExecSQL;
-  QDeleteLinhaHorario.SQL.Text :=('Delete from  Onibus where linha_id= :linha_id');
+
+  QDeleteLinhaHorario.SQL.Text :='UPDATE Onibus SET id_linha = 19 WHERE id_linha = :linha_id';
   QDeleteLinhaHorario.ParamByName('linha_id').AsInteger := QLinhasid_linha.AsInteger;
   QDeleteLinhaHorario.ExecSQL;
 

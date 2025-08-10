@@ -1,0 +1,61 @@
+unit UnitDMOnibus;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client,UnitConnection;
+
+type
+  TDMOnibus = class(TForm)
+    QOnibus: TFDQuery;
+    QOnibusid_onibus: TLargeintField;
+    QOnibusgps_caractere_atual: TStringField;
+    QOnibusplaca_de: TStringField;
+    QOnibusid_linha: TLargeintField;
+    QOnibusnome_linha: TStringField;
+    QOnibusvalor: TBCDField;
+    QOnibusid_empresa: TLargeintField;
+    DSOnibus: TDataSource;
+    QInsertOnibus: TFDQuery;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure InitOnibus;
+    function SalvarOnibus (placa,gps:string;idLinha:integer):string;
+  end;
+
+var
+  DMOnibus: TDMOnibus;
+
+implementation
+
+{$R *.dfm}
+
+procedure TDMOnibus.InitOnibus;
+begin
+  if QOnibus.Active then
+  begin
+    QOnibus.Close;
+  end;
+  QOnibus.Open;
+end;
+
+function TDMOnibus.SalvarOnibus (placa,gps:string;idLinha:integer):string;
+begin
+    QInsertOnibus.SQL.Text :=
+    'INSERT INTO Onibus (gps_caractere_atual, placa_de, id_linha) ' +
+    'VALUES (:gps_caractere_atual, :placa_de, :id_linha)';
+
+  QInsertOnibus.ParamByName('gps_caractere_atual').AsString := gps;
+  QInsertOnibus.ParamByName('placa_de').AsString := placa;
+  QInsertOnibus.ParamByName('id_linha').AsInteger := idlinha;
+
+  QInsertOnibus.ExecSQL;
+end;
+
+end.

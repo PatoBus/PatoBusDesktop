@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.StdCtrls, Vcl.ExtCtrls,
-  Vcl.Imaging.pngimage;
+  Vcl.Imaging.pngimage,UnitDMUsuarios,UnitConnection;
 
 type
   TFormLogin = class(TForm)
@@ -85,13 +85,35 @@ end;
 
 procedure TFormLogin.BtnLoginClick(Sender: TObject);
 begin
-  ModalResult := mrOk;
+  if DMUsuario.ValidarUsuario(EditUsuario.Text, EditSenha.Text) then
+  begin
+    //ShowMessage('Login realizado com sucesso!');
+    ModalResult := mrOk;
+  end
+  else
+  begin
+    Tentativas := Tentativas + 1;
+    ShowMessage('Usuário ou senha inválidos!');
+
+    if Tentativas >= 3 then
+    begin
+      ShowMessage('Número máximo de tentativas atingido. Encerrando...');
+      Application.Terminate;
+    end;
+  end;
 end;
 
 procedure TFormLogin.FormCreate(Sender: TObject);
 begin
   Tentativas := 0;
   CentralizarImagemComQualidade(Image1);
-end;
 
+  if not Assigned(FormConnection) then
+    FormConnection := TFormConnection.Create(Self);
+
+  if not Assigned(DMUsuario) then
+    DMUsuario := TDMUsuario.Create(Self);
+
+
+end;
 end.

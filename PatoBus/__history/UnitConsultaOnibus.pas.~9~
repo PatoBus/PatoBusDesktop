@@ -1,0 +1,94 @@
+unit UnitConsultaOnibus;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.DBCtrls, Vcl.Buttons, Vcl.StdCtrls,
+  Vcl.ExtCtrls, Data.DB, Vcl.Grids, Vcl.DBGrids,UnitDMOnibus,UnitDMLinhas;
+
+type
+  TFormConsultaOnibus = class(TForm)
+    Panel1: TPanel;
+    DBGrid1: TDBGrid;
+    Panel2: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label4: TLabel;
+    Button1: TButton;
+    Edit1: TEdit;
+    Edit2: TEdit;
+    Button2: TButton;
+    DBNavigator1: TDBNavigator;
+    DBLookupComboBox1: TDBLookupComboBox;
+    procedure Button1Click(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormShow(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FormConsultaOnibus: TFormConsultaOnibus;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFormConsultaOnibus.Button1Click(Sender: TObject);
+begin
+  dmOnibus.InitOnibus;
+end;
+
+procedure TFormConsultaOnibus.Button2Click(Sender: TObject);
+var
+  nome, descricao, pontos: string;
+  idLinha,valor: Integer;
+  itemSelecionado: string;
+begin
+
+
+    // Captura os dados dos campos
+    nome := Trim(Edit1.Text);
+    valor := StrToInt((Trim(Edit2.Text)));
+
+    // Extrai o ID da linha a partir do ComboBox (esperando "1 - Nome da Linha")
+    itemSelecionado := DBLookupComboBox1.Text;
+    if itemSelecionado = '' then
+      raise Exception.Create('Selecione uma linha.');
+
+    idLinha := DBLookupComboBox1.KeyValue;
+    if idLinha = -1 then
+      raise Exception.Create('ID da linha inválido.');
+
+
+    // Chama o método PostRota (empresa com id fixo = 1)
+    ShowMessage(dmLinhas.Salvarlinha(idLinha,nome,valor,1,horario_id));
+
+    // Atualiza a grid após salvar
+    dmLinhas.InitLinhas;
+
+
+
+    // Limpa os campos do formulário
+    Edit1.Clear;
+    Edit2.Clear;
+
+end;
+
+procedure TFormConsultaOnibus.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  DMOnibus.QOnibus.Close;
+  DMLinhas.QLinhasComboBox.Close;
+end;
+
+procedure TFormConsultaOnibus.FormShow(Sender: TObject);
+begin
+  DMLinhas.QLinhasComboBox.Open;
+end;
+
+end.

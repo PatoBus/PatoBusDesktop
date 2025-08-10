@@ -965,9 +965,6 @@ object FormLogin: TFormLogin
         Height = 23
         Align = alClient
         TabOrder = 0
-        ExplicitLeft = 176
-        ExplicitTop = 2
-        ExplicitWidth = 121
       end
     end
     object BtnLogin: TBitBtn
@@ -981,7 +978,6 @@ object FormLogin: TFormLogin
       TabOrder = 1
       StyleName = 'Windows'
       OnClick = BtnLoginClick
-      ExplicitWidth = 360
     end
     object Panel4: TPanel
       Left = 25
@@ -997,10 +993,8 @@ object FormLogin: TFormLogin
         Width = 298
         Height = 23
         Align = alClient
+        PasswordChar = '*'
         TabOrder = 0
-        ExplicitLeft = -47
-        ExplicitTop = 0
-        ExplicitWidth = 295
       end
     end
   end
