@@ -149,7 +149,7 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="UnitDMParadas.pas">
-            <Form>Form3</Form>
+            <Form>DMParadas</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="UnitDMUsuarios.pas">
@@ -172,6 +172,11 @@
             <Form>DMOnibus</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="UnitConsultaParadas.pas">
+            <Form>FormConsultaParadas</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="UnitSessao.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

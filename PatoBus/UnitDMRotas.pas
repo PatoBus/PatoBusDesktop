@@ -24,6 +24,14 @@ type
     QRotasdescricao: TStringField;
     QDeleteRotas: TFDQuery;
     QRotasid_rota: TLargeintField;
+    QRotasCombobox: TFDQuery;
+    DSRotasCombobox: TDataSource;
+    QRotasComboboxid_rota: TLargeintField;
+    QRotasComboboxdescricao: TStringField;
+    QRotasComboboxnome_rota: TStringField;
+    QRotasComboboxpontos: TMemoField;
+    QRotasComboboxid_linha: TLargeintField;
+    QRotasComboboxid_empresa: TLargeintField;
     procedure QRotasBeforeDelete(DataSet: TDataSet);
   private
     { Private declarations }
@@ -32,6 +40,7 @@ type
     { Public declarations }
     procedure initQRota;
     function  SalvarRota(Descricao, nome_rota ,pontos: string;id_linha,id_empresa:integer):string;
+    procedure initQRotaCombobox;
 
   end;
 
@@ -50,6 +59,14 @@ begin
     QRotas.close;
   end;
   QRotas.Open;
+end;
+procedure TDMrotas.initQRotaCombobox;
+begin
+  if QRotasCombobox.Active then
+  begin
+    QRotasCombobox.close;
+  end;
+  QRotasCombobox.Open;
 end;
 procedure TdmRotas.QRotasBeforeDelete(DataSet: TDataSet);
 begin

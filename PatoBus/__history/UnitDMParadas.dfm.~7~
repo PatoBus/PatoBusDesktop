@@ -1,0 +1,114 @@
+object DMParadas: TDMParadas
+  Left = 0
+  Top = 0
+  Caption = 'DMParadas'
+  ClientHeight = 441
+  ClientWidth = 624
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  TextHeight = 15
+  object QParadas: TFDQuery
+    Connection = FormConnection.FDConnection1
+    SQL.Strings = (
+      'select * from paradas '
+      
+        'inner join rota_paradas on paradas.id_parada = rota_paradas.id_p' +
+        'arada'
+      'inner join rota on rota_paradas.id_rota = rota.id_rota')
+    Left = 32
+    Top = 32
+    object QParadasid_parada: TLargeintField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'id_parada'
+      Origin = 'id_parada'
+      ProviderFlags = [pfInWhere, pfInKey]
+    end
+    object QParadaslon: TStringField
+      FieldName = 'lon'
+      Origin = 'lon'
+      Required = True
+      Size = 255
+    end
+    object QParadaslat: TStringField
+      FieldName = 'lat'
+      Origin = 'lat'
+      Required = True
+      Size = 255
+    end
+    object QParadasid_rtparadas: TLargeintField
+      AutoGenerateValue = arDefault
+      FieldName = 'id_rtparadas'
+      Origin = 'id_rtparadas'
+      ProviderFlags = []
+      ReadOnly = True
+    end
+    object QParadasid_rota: TLargeintField
+      AutoGenerateValue = arDefault
+      FieldName = 'id_rota'
+      Origin = 'id_rota'
+      ProviderFlags = []
+      ReadOnly = True
+    end
+    object QParadasid_parada_1: TLargeintField
+      AutoGenerateValue = arDefault
+      FieldName = 'id_parada_1'
+      Origin = 'id_parada'
+      ProviderFlags = []
+      ReadOnly = True
+    end
+    object QParadasid_rota_1: TLargeintField
+      AutoGenerateValue = arDefault
+      FieldName = 'id_rota_1'
+      Origin = 'id_rota'
+      ProviderFlags = []
+      ReadOnly = True
+    end
+    object QParadasdescricao: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'descricao'
+      Origin = 'descricao'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 255
+    end
+    object QParadasnome_rota: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'nome_rota'
+      Origin = 'nome_rota'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 255
+    end
+    object QParadaspontos: TMemoField
+      AutoGenerateValue = arDefault
+      FieldName = 'pontos'
+      Origin = 'pontos'
+      ProviderFlags = []
+      ReadOnly = True
+      BlobType = ftMemo
+    end
+    object QParadasid_linha: TLargeintField
+      AutoGenerateValue = arDefault
+      FieldName = 'id_linha'
+      Origin = 'id_linha'
+      ProviderFlags = []
+      ReadOnly = True
+    end
+    object QParadasid_empresa: TLargeintField
+      AutoGenerateValue = arDefault
+      FieldName = 'id_empresa'
+      Origin = 'id_empresa'
+      ProviderFlags = []
+      ReadOnly = True
+    end
+  end
+  object DSParadas: TDataSource
+    DataSet = QParadas
+    Left = 32
+    Top = 104
+  end
+end

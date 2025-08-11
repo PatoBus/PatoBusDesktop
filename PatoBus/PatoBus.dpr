@@ -11,12 +11,14 @@ uses
   Vcl.Styles,
   UnitDMLinhas in 'UnitDMLinhas.pas' {DMlinhas},
   UnitDMRotas in 'UnitDMRotas.pas' {DMRotas},
-  UnitDMParadas in 'UnitDMParadas.pas' {Form3},
+  UnitDMParadas in 'UnitDMParadas.pas' {DMParadas},
   UnitDMUsuarios in 'UnitDMUsuarios.pas' {DMUsuario},
   UnitConsultaRotas in 'UnitConsultaRotas.pas' {FormConsultaRotas},
   UnitConnection in 'UnitConnection.pas' {FormConnection},
   UnitConsultaOnibus in 'UnitConsultaOnibus.pas' {FormConsultaOnibus},
-  UnitDMOnibus in 'UnitDMOnibus.pas' {DMOnibus};
+  UnitDMOnibus in 'UnitDMOnibus.pas' {DMOnibus},
+  UnitConsultaParadas in 'UnitConsultaParadas.pas' {FormConsultaParadas},
+  UnitSessao in 'UnitSessao.pas';
 
 {$R *.res}
 
@@ -32,12 +34,13 @@ begin
   Application.CreateForm(TFormConsultaLinha, FormConsultaLinha);
   Application.CreateForm(TDMlinhas, DMlinhas);
   Application.CreateForm(TDMRotas, DMRotas);
-  Application.CreateForm(TForm3, Form3);
+  Application.CreateForm(TDMParadas, DMParadas);
   Application.CreateForm(TDMUsuario, DMUsuario);
   Application.CreateForm(TFormConsultaRotas, FormConsultaRotas);
   Application.CreateForm(TFormConnection, FormConnection);
   Application.CreateForm(TFormConsultaOnibus, FormConsultaOnibus);
   Application.CreateForm(TDMOnibus, DMOnibus);
+  Application.CreateForm(TFormConsultaParadas, FormConsultaParadas);
   Application.Run;
     end
     else

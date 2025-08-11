@@ -913,6 +913,7 @@ object FormMain: TFormMain
   Menu = MainMenu1
   WindowState = wsMaximized
   OnClose = FormClose
+  OnShow = FormShow
   TextHeight = 15
   object StatusBar1: TStatusBar
     Left = 0
@@ -944,9 +945,11 @@ object FormMain: TFormMain
       end
       object TConsultaParadas: TMenuItem
         Caption = 'Paradas'
+        OnClick = TConsultaParadasClick
       end
       object TConsultaUsuarios: TMenuItem
         Caption = 'Usuarios'
+        Visible = False
       end
       object TOnibus: TMenuItem
         Caption = #212'nibus'

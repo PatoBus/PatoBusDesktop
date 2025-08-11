@@ -1,0 +1,102 @@
+unit UnitConsultaParadas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.DBCtrls, Vcl.Buttons, Vcl.StdCtrls,
+  Vcl.ExtCtrls, Data.DB, Vcl.Grids, Vcl.DBGrids,UnitDMParadas,UnitDMRotas;
+
+type
+  TFormConsultaParadas = class(TForm)
+    Panel2: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label4: TLabel;
+    Button1: TButton;
+    Edit1: TEdit;
+    Edit2: TEdit;
+    Button2: TButton;
+    DBNavigator1: TDBNavigator;
+    DBLookupComboBox1: TDBLookupComboBox;
+    Panel1: TPanel;
+    DBGrid1: TDBGrid;
+    DBLookupComboBox2: TDBLookupComboBox;
+    Label3: TLabel;
+    procedure Button1Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure Button2Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FormConsultaParadas: TFormConsultaParadas;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFormConsultaParadas.Button1Click(Sender: TObject);
+begin
+  if DBLookupComboBox2.Text='' then
+  begin
+    DMParadas.InitParadas(0);
+  end
+  else
+  begin
+    DMParadas.InitParadas(DBLookupComboBox2.KeyValue)
+  end;
+end;
+
+procedure TFormConsultaParadas.Button2Click(Sender: TObject);
+  var
+  Lon,Lat: string;
+  id_rota,horario_id,valor: Integer;
+  itemSelecionado: string;
+begin
+
+
+    // Captura os dados dos campos
+    Lat := Trim(Edit1.Text);
+    Lon :=Trim(Edit2.Text);
+
+
+    itemSelecionado := DBLookupComboBox1.Text;
+    if itemSelecionado = '' then
+      raise Exception.Create('Selecione uma Rota.');
+
+    id_rota := DBLookupComboBox1.KeyValue;
+    if horario_id = -1 then
+      raise Exception.Create('ID da Rota inválido.');
+
+
+    // Chama o método PostRota (empresa com id fixo = 1)
+    ShowMessage(dmParadas.SalvarParada(Lon,Lat,id_rota));
+
+    // Atualiza a grid após salvar
+   // Button1Click;
+
+
+
+    // Limpa os campos do formulário
+    Edit1.Clear;
+    Edit2.Clear;
+end;
+
+procedure TFormConsultaParadas.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  DMrotas.QRotasCombobox.Close;
+  DMrotas.QRotas.Close;
+end;
+
+procedure TFormConsultaParadas.FormShow(Sender: TObject);
+begin
+  DMrotas.initQRotaCombobox;
+end;
+
+end.

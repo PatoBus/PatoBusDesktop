@@ -13,6 +13,11 @@ uses
 type
   TDMUsuario = class(TForm)
     QUsuarioLogin: TFDQuery;
+    QUsuarioLoginid: TLargeintField;
+    QUsuarioLoginusuario: TStringField;
+    QUsuarioLoginsenha: TStringField;
+    QUsuarioLoginadm: TBooleanField;
+    QUsuarioLoginid_empresa: TIntegerField;
   private
     function GerarHashSHA256(const Texto: string): string;
   public
@@ -34,9 +39,7 @@ end;
 function TDMUsuario.ValidarUsuario(const Usuario, Senha: string): Boolean;
 begin
   QUsuarioLogin.Close;
-  QUsuarioLogin.SQL.Text :=
-    'SELECT id FROM usuario ' +
-    'WHERE usuario = :usuario AND senha = :senha';
+
   QUsuarioLogin.ParamByName('usuario').AsString := Usuario;
   QUsuarioLogin.ParamByName('senha').AsString := GerarHashSHA256(Senha);
   QUsuarioLogin.Open;

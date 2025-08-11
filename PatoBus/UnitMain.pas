@@ -5,8 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs,UnitLogin, Vcl.Menus, Vcl.ToolWin,UnitConsultaLinha,UnitConsultaRotas,
-  UnitConsultaOnibus,
-  Vcl.ComCtrls;
+  UnitConsultaOnibus,UnitConsultaParadas,
+  Vcl.ComCtrls, UnitSessao;
 
 type
   TFormMain = class(TForm)
@@ -23,6 +23,8 @@ type
     procedure TConsultaLinhasClick(Sender: TObject);
     procedure TConsultaRotasClick(Sender: TObject);
     procedure TOnibusClick(Sender: TObject);
+    procedure TConsultaParadasClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -41,12 +43,27 @@ begin
    Application.Terminate;
 end;
 
+procedure TFormMain.FormShow(Sender: TObject);
+begin
+  TConsultaUsuarios.Visible := SessaoUsuario.Adm;
+end;
+
 procedure TFormMain.TConsultaLinhasClick(Sender: TObject);
 begin
     if not Assigned(FormConsultaLinha) then
     Application.CreateForm(TFormConsultaLinha, FormConsultaLinha);
 
     FormConsultaLinha.Show;
+end;
+
+procedure TFormMain.TConsultaParadasClick(Sender: TObject);
+begin
+
+  if not Assigned(FormConsultaParadas) then
+    Application.CreateForm(TFormConsultaRotas, FormConsultaParadas);
+
+    FormConsultaParadas.Show;
+
 end;
 
 procedure TFormMain.TConsultaRotasClick(Sender: TObject);

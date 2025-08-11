@@ -1,0 +1,94 @@
+unit UnitDMParadas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client,UnitConnection;
+
+type
+  TDMParadas = class(TForm)
+    QParadas: TFDQuery;
+    DSParadas: TDataSource;
+    QParadasid_parada: TLargeintField;
+    QParadaslon: TStringField;
+    QParadaslat: TStringField;
+    QParadasid_rtparadas: TLargeintField;
+    QParadasid_rota: TLargeintField;
+    QParadasid_parada_1: TLargeintField;
+    QParadasid_rota_1: TLargeintField;
+    QParadasdescricao: TStringField;
+    QParadasnome_rota: TStringField;
+    QParadaspontos: TMemoField;
+    QParadasid_linha: TLargeintField;
+    QParadasid_empresa: TLargeintField;
+    QInsertParadas: TFDQuery;
+    QInsertRotasParadas: TFDQuery;
+    QGetLastID: TFDQuery;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure InitParadas(id_rota:integer=0);
+    function SalvarParada(Lon,Lat:string ;id_rota:integer):string ;
+  end;
+
+var
+  DMParadas: TDMParadas;
+
+implementation
+
+{$R *.dfm}
+
+procedure TDMParadas.InitParadas(id_rota:integer=0);
+begin
+
+  QParadas.Close;
+  QParadas.SQL.Clear;
+
+  QParadas.SQL.Add('SELECT *');
+  QParadas.SQL.Add('FROM paradas');
+  QParadas.SQL.Add('INNER JOIN rota_paradas ON paradas.id_parada = rota_paradas.id_parada');
+  QParadas.SQL.Add('INNER JOIN rota ON rota_paradas.id_rota = rota.id_rota');
+
+  if id_rota > 0 then
+  begin
+    QParadas.SQL.Add('WHERE rota_paradas.id_rota = :id_rota');
+    QParadas.ParamByName('id_rota').AsInteger := id_rota;
+  end;
+
+  QParadas.Open;
+end;
+
+function TDMParadas.SalvarParada(Lon, Lat: string; id_rota: integer): string;
+var
+  id_parada: integer;
+begin
+  // Inserir na tabela paradas
+  QInsertParadas.SQL.Text :=
+    'INSERT INTO paradas (lat ,lon) VALUES (:lat, :lon)';
+  QInsertParadas.ParamByName('lon').AsString := Lon;
+  QInsertParadas.ParamByName('lat').AsString := Lat;
+  QInsertParadas.ExecSQL;
+
+  // Obter o último id_parada inserido (MySQL)
+  QGetLastID.SQL.Text := 'SELECT LAST_INSERT_ID()';
+  QGetLastID.Open;
+  id_parada := QGetLastID.Fields[0].AsInteger;
+  QGetLastID.Close;
+
+  // Inserir na tabela rota_paradas
+  QInsertRotasParadas.SQL.Text :=
+    'INSERT INTO rota_paradas (id_rota ,id_parada) VALUES (:id_rota, :id_parada)';
+  QInsertRotasParadas.ParamByName('id_rota').AsInteger := id_rota;
+  QInsertRotasParadas.ParamByName('id_parada').AsInteger := id_parada;
+  QInsertRotasParadas.ExecSQL;
+
+  // Retornar o id_parada como string
+  Result := IntToStr(id_parada);
+end;
+
+end.

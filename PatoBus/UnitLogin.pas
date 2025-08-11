@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.StdCtrls, Vcl.ExtCtrls,
-  Vcl.Imaging.pngimage,UnitDMUsuarios,UnitConnection;
+  Vcl.Imaging.pngimage,UnitDMUsuarios,UnitConnection,UnitSessao;
 
 type
   TFormLogin = class(TForm)
@@ -83,11 +83,17 @@ begin
 end;
 
 
+
 procedure TFormLogin.BtnLoginClick(Sender: TObject);
 begin
   if DMUsuario.ValidarUsuario(EditUsuario.Text, EditSenha.Text) then
   begin
-    //ShowMessage('Login realizado com sucesso!');
+    // Preenche a sessão corretamente
+    SessaoUsuario.IdUsuario := DMUsuario.QUsuarioLogin.FieldByName('id').AsInteger;
+    SessaoUsuario.Usuario := DMUsuario.QUsuarioLogin.FieldByName('usuario').AsString;
+    SessaoUsuario.Adm := DMUsuario.QUsuarioLogin.FieldByName('adm').asboolean ;
+    SessaoUsuario.IdEmpresa := DMUsuario.QUsuarioLogin.FieldByName('id_empresa').AsInteger;
+
     ModalResult := mrOk;
   end
   else
@@ -102,6 +108,7 @@ begin
     end;
   end;
 end;
+
 
 procedure TFormLogin.FormCreate(Sender: TObject);
 begin
