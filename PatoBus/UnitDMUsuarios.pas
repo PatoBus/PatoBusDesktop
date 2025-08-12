@@ -22,6 +22,7 @@ type
     function GerarHashSHA256(const Texto: string): string;
   public
     function ValidarUsuario(const Usuario, Senha: string): Boolean;
+
   end;
 
 var
@@ -46,6 +47,8 @@ begin
 
   Result := not QUsuarioLogin.IsEmpty;
 end;
+
+
 
 end.
 

@@ -1,0 +1,56 @@
+program PatoBus;
+
+uses
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.Controls,
+  UnitLogin in 'UnitLogin.pas' {FormLogin},
+  UnitMain in 'UnitMain.pas' {FormMain},
+  UnitConsultaLinha in 'UnitConsultaLinha.pas' {FormConsultaLinha},
+  Vcl.Themes,
+  Vcl.Styles,
+  UnitDMLinhas in 'UnitDMLinhas.pas' {DMlinhas},
+  UnitDMRotas in 'UnitDMRotas.pas' {DMRotas},
+  UnitDMParadas in 'UnitDMParadas.pas' {DMParadas},
+  UnitDMUsuarios in 'UnitDMUsuarios.pas' {DMUsuario},
+  UnitConsultaRotas in 'UnitConsultaRotas.pas' {FormConsultaRotas},
+  UnitConnection in 'UnitConnection.pas' {FormConnection},
+  UnitConsultaOnibus in 'UnitConsultaOnibus.pas' {FormConsultaOnibus},
+  UnitDMOnibus in 'UnitDMOnibus.pas' {DMOnibus},
+  UnitConsultaParadas in 'UnitConsultaParadas.pas' {FormConsultaParadas},
+  UnitSessao in 'UnitSessao.pas',
+  UnitConsultaUsuario in 'UnitConsultaUsuario.pas' {FormConsultaUsuario},
+  UnitDMEmpresa in 'UnitDMEmpresa.pas' {DMEmpresa};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+
+  FormLogin := TFormLogin.Create(nil);
+  try
+    if FormLogin.ShowModal = mrOk then
+    begin
+      Application.CreateForm(TFormMain, FormMain);
+  Application.CreateForm(TFormConsultaLinha, FormConsultaLinha);
+  Application.CreateForm(TDMlinhas, DMlinhas);
+  Application.CreateForm(TDMRotas, DMRotas);
+  Application.CreateForm(TDMParadas, DMParadas);
+  Application.CreateForm(TDMUsuario, DMUsuario);
+  Application.CreateForm(TFormConsultaRotas, FormConsultaRotas);
+  Application.CreateForm(TFormConnection, FormConnection);
+  Application.CreateForm(TFormConsultaOnibus, FormConsultaOnibus);
+  Application.CreateForm(TDMOnibus, DMOnibus);
+  Application.CreateForm(TFormConsultaParadas, FormConsultaParadas);
+  Application.CreateForm(TFormConsultaUsuario, FormConsultaUsuario);
+  Application.CreateForm(TDMEmpresa, DMEmpresa);
+  Application.Run;
+    end
+    else
+      Application.Terminate;
+  finally
+    FormLogin.Free;
+  end;
+end.
+

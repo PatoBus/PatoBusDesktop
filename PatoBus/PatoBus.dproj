@@ -177,6 +177,18 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="UnitSessao.pas"/>
+        <DCCReference Include="UnitConsultaUsuario.pas">
+            <Form>FormConsultaUsuario</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="UnitDMEmpresa.pas">
+            <Form>DMEmpresa</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="UnitDMUsuarios2.pas">
+            <Form>DMUsuarios2</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

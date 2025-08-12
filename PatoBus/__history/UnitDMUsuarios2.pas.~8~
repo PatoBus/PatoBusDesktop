@@ -1,0 +1,78 @@
+unit UnitDMUsuarios2;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client,UnitConnection;
+
+type
+  TDMUsuarios2 = class(TForm)
+    QUsuario: TFDQuery;
+    QUsuarioid: TLargeintField;
+    QUsuariousuario: TStringField;
+    QUsuariosenha: TStringField;
+    QUsuarioadm: TBooleanField;
+    QUsuarioid_empresa: TIntegerField;
+    QUsuarioid_empresa_1: TLargeintField;
+    QUsuariocnpj: TStringField;
+    QUsuarionome_empresa: TStringField;
+    DSUsuario: TDataSource;
+    QInsertUsuario: TFDQuery;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure InitQUsuario;
+    function SalvarUsuario(Usuario, senha ,Role: string;id_empresa:integer):string;
+
+
+  end;
+
+var
+  DMUsuarios2: TDMUsuarios2;
+
+implementation
+
+{$R *.dfm}
+
+procedure TDMUsuarios2.InitQUsuario;
+begin
+  QUsuario.Close;
+  QUsuario.Open;
+end;
+
+function TDMusuarios2.SalvarUsuario(Usuario, senha ,Role: string;id_empresa:integer):string;
+var
+admin:integer;
+asenha:string;
+begin
+  asenha := THashSHA2.GetHashString(senha)
+  if role='Admnistrador' then
+  begin
+    admin :=1;
+  end;
+  if role='Usuario' then
+  begin
+    admin :=0;
+  end
+
+  QInsertUsuario.SQL.Text :=
+    'INSERT INTO rota (Usuario, senha, po, id_linha, id_empresa) ' +
+    'VALUES (:Descricao, :NomeRota, :Pontos, :IdLinha, :IdEmpresa)';
+
+  QInsertUsuario.ParamByName('Descricao').AsString := Descricao;
+  QInsertUsuario.ParamByName('NomeRota').AsString := nome_rota;
+  QInsertUsuario.ParamByName('Pontos').AsString := Pontos;
+  QInsertUsuario.ParamByName('IdLinha').AsInteger := Id_Linha;
+  QInsertUsuario.ParamByName('IdEmpresa').AsInteger := Id_Empresa;
+
+  QInsertUsuario.ExecSQL;
+
+  result := 'Rota: ' + nome_rota + 'criada com sucesso'
+end;
+
+end.

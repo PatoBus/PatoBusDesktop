@@ -1,0 +1,45 @@
+unit UnitDMUsuarios2;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, Data.DB,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client,UnitConnection;
+
+type
+  TDMUsuarios2 = class(TForm)
+    QUsuario: TFDQuery;
+    QUsuarioid: TLargeintField;
+    QUsuariousuario: TStringField;
+    QUsuariosenha: TStringField;
+    QUsuarioadm: TBooleanField;
+    QUsuarioid_empresa: TIntegerField;
+    QUsuarioid_empresa_1: TLargeintField;
+    QUsuariocnpj: TStringField;
+    QUsuarionome_empresa: TStringField;
+    DSUsuario: TDataSource;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure InitQUsuario;
+
+  end;
+
+var
+  DMUsuarios2: TDMUsuarios2;
+
+implementation
+
+{$R *.dfm}
+
+procedure TDMUsuarios2.InitQUsuario;
+begin
+  QUsuario.Close;
+  QUsuario.Open;
+end;
+
+end.

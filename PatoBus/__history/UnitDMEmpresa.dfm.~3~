@@ -1,0 +1,44 @@
+object DMEmpresa: TDMEmpresa
+  Left = 0
+  Top = 0
+  Caption = 'DMEmpresa'
+  ClientHeight = 441
+  ClientWidth = 624
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  TextHeight = 15
+  object QEmpresaCombobox: TFDQuery
+    Connection = FormConnection.FDConnection1
+    SQL.Strings = (
+      'select * from empresa ')
+    Left = 376
+    Top = 192
+    object QEmpresaComboboxid_empresa: TLargeintField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'id_empresa'
+      Origin = 'id_empresa'
+      ProviderFlags = [pfInWhere, pfInKey]
+    end
+    object QEmpresaComboboxcnpj: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cnpj'
+      Origin = 'cnpj'
+      Size = 255
+    end
+    object QEmpresaComboboxnome_empresa: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'nome_empresa'
+      Origin = 'nome_empresa'
+      Size = 255
+    end
+  end
+  object DSEmpresaCombobox: TDataSource
+    DataSet = QEmpresaCombobox
+    Left = 376
+    Top = 272
+  end
+end

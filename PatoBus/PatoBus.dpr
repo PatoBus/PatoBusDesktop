@@ -18,7 +18,10 @@ uses
   UnitConsultaOnibus in 'UnitConsultaOnibus.pas' {FormConsultaOnibus},
   UnitDMOnibus in 'UnitDMOnibus.pas' {DMOnibus},
   UnitConsultaParadas in 'UnitConsultaParadas.pas' {FormConsultaParadas},
-  UnitSessao in 'UnitSessao.pas';
+  UnitSessao in 'UnitSessao.pas',
+  UnitConsultaUsuario in 'UnitConsultaUsuario.pas' {FormConsultaUsuario},
+  UnitDMEmpresa in 'UnitDMEmpresa.pas' {DMEmpresa},
+  UnitDMUsuarios2 in 'UnitDMUsuarios2.pas' {DMUsuarios2};
 
 {$R *.res}
 
@@ -41,6 +44,9 @@ begin
   Application.CreateForm(TFormConsultaOnibus, FormConsultaOnibus);
   Application.CreateForm(TDMOnibus, DMOnibus);
   Application.CreateForm(TFormConsultaParadas, FormConsultaParadas);
+  Application.CreateForm(TFormConsultaUsuario, FormConsultaUsuario);
+  Application.CreateForm(TDMEmpresa, DMEmpresa);
+  Application.CreateForm(TDMUsuarios2, DMUsuarios2);
   Application.Run;
     end
     else

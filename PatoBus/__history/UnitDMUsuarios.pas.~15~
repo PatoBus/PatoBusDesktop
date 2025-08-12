@@ -1,0 +1,66 @@
+unit UnitDMUsuarios;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, System.Hash,UnitConnection;
+
+type
+  TDMUsuario = class(TForm)
+    QUsuarioLogin: TFDQuery;
+    QUsuarioLoginid: TLargeintField;
+    QUsuarioLoginusuario: TStringField;
+    QUsuarioLoginsenha: TStringField;
+    QUsuarioLoginadm: TBooleanField;
+    QUsuarioLoginid_empresa: TIntegerField;
+    QUsuarios: TFDQuery;
+    DSUsuarios: TDataSource;
+    QUsuariosid: TLargeintField;
+    QUsuariosusuario: TStringField;
+    QUsuariossenha: TStringField;
+    QUsuariosadm: TBooleanField;
+    QUsuariosid_empresa: TIntegerField;
+  private
+    function GerarHashSHA256(const Texto: string): string;
+  public
+    function ValidarUsuario(const Usuario, Senha: string): Boolean;
+    procedure  InitQUsuario;
+  end;
+
+var
+  DMUsuario: TDMUsuario;
+
+implementation
+
+{$R *.dfm}
+
+function TDMUsuario.GerarHashSHA256(const Texto: string): string;
+begin
+  Result := THashSHA2.GetHashString(Texto);
+end;
+
+function TDMUsuario.ValidarUsuario(const Usuario, Senha: string): Boolean;
+begin
+  QUsuarioLogin.Close;
+
+  QUsuarioLogin.ParamByName('usuario').AsString := Usuario;
+  QUsuarioLogin.ParamByName('senha').AsString := GerarHashSHA256(Senha);
+  QUsuarioLogin.Open;
+
+  Result := not QUsuarioLogin.IsEmpty;
+end;
+
+procedure TDMUsuario.InitQUsuario ;
+begin
+  QUsuarios.Close;
+  QUsuarios.Open;
+
+end;
+
+end.
+
