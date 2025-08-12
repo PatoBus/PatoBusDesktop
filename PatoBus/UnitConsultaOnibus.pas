@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.DBCtrls, Vcl.Buttons, Vcl.StdCtrls,
-  Vcl.ExtCtrls, Data.DB, Vcl.Grids, Vcl.DBGrids,UnitDMOnibus,UnitDMLinhas;
+  Vcl.ExtCtrls, Data.DB, Vcl.Grids, Vcl.DBGrids,UnitDMOnibus,UnitDMLinhas,unitsessao;
 
 type
   TFormConsultaOnibus = class(TForm)
@@ -40,7 +40,7 @@ implementation
 
 procedure TFormConsultaOnibus.Button1Click(Sender: TObject);
 begin
-  dmOnibus.InitOnibus;
+  dmOnibus.InitOnibus(SessaoUsuario.IdEmpresa);
 end;
 
 procedure TFormConsultaOnibus.Button2Click(Sender: TObject);
@@ -66,7 +66,7 @@ begin
     ShowMessage(DMOnibus.SalvarOnibus(placa,gps,idLinha));
 
     // Atualiza a grid após salvar
-    DmOnibus.InitOnibus;
+    DmOnibus.InitOnibus(SessaoUsuario.IdEmpresa);
 
 
 

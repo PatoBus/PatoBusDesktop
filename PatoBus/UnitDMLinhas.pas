@@ -37,7 +37,7 @@ type
   private
   public
     procedure InitLinhasComboBox;
-    procedure InitLinhas;
+    procedure InitLinhas(id_empresa:integer);
     procedure InitLinhasHorarios;
     function Salvarlinha(linha_id:integer;nome_linha:string;valor:Double;id_empresa,horario_id:integer):string;
   end;
@@ -55,6 +55,7 @@ begin
   begin
     QLinhasComboBox.Close;
   end;
+
   QLinhasComboBox.Open;
 end;
 
@@ -84,12 +85,13 @@ begin
 
 end;
 
-procedure TDMLinhas.InitLinhas;
+procedure TDMLinhas.InitLinhas(id_empresa:integer);
 begin
   if QLinhas.Active then
   begin
     QLinhas.Close;
   end;
+  QLinhas.ParamByName('id_empresa').Asinteger := id_empresa;
   QLinhas.Open;
 end;
 

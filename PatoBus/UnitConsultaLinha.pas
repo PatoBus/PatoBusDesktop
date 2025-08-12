@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB,
   Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, System.JSON, System.Net.HttpClient,
-  UnitDMLinhas, Vcl.DBCtrls, Vcl.Buttons;
+  UnitDMLinhas, Vcl.DBCtrls, unitsessao, Vcl.Buttons;
 
 type
   TFormConsultaLinha = class(TForm)
@@ -45,7 +45,7 @@ implementation
 procedure TFormConsultaLinha.Button1Click(Sender: TObject);
 begin
   // Chama o método LoadRotas do form dmRotas
-  dmLinhas.InitLinhas
+  dmLinhas.InitLinhas(SessaoUsuario.IdEmpresa);
 
 end;
 
@@ -93,10 +93,10 @@ begin
 
 
     // Chama o método PostRota (empresa com id fixo = 1)
-    ShowMessage(dmLinhas.Salvarlinha(idLinha,nome,valor,1,horario_id));
+    ShowMessage(dmLinhas.Salvarlinha(idLinha,nome,valor,(SessaoUsuario.IdEmpresa),horario_id));
 
     // Atualiza a grid após salvar
-    dmLinhas.InitLinhas;
+    dmLinhas.InitLinhas(SessaoUsuario.IdEmpresa);
 
 
 

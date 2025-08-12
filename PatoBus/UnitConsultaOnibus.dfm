@@ -971,7 +971,6 @@ object FormConsultaOnibus: TFormConsultaOnibus
     Height = 256
     Align = alClient
     TabOrder = 1
-    ExplicitHeight = 253
     object Label1: TLabel
       Left = 0
       Top = 50
@@ -1034,7 +1033,6 @@ object FormConsultaOnibus: TFormConsultaOnibus
       VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbDelete, nbEdit, nbPost, nbCancel, nbRefresh]
       Align = alBottom
       TabOrder = 4
-      ExplicitTop = 227
     end
     object DBLookupComboBox1: TDBLookupComboBox
       Left = 478

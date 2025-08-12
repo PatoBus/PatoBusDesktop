@@ -25,7 +25,7 @@ type
     { Private declarations }
   public
     { Public declarations }
-    procedure InitOnibus;
+    procedure InitOnibus(id_empresa:integer);
     function SalvarOnibus (placa,gps:string;idLinha:integer):string;
   end;
 
@@ -36,12 +36,13 @@ implementation
 
 {$R *.dfm}
 
-procedure TDMOnibus.InitOnibus;
+procedure TDMOnibus.InitOnibus(id_empresa:integer);
 begin
   if QOnibus.Active then
   begin
     QOnibus.Close;
   end;
+  QOnibus.ParamByName('id_empresa').AsInteger :=id_empresa ;
   QOnibus.Open;
 end;
 

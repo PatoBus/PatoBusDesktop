@@ -31,9 +31,16 @@ object DMlinhas: TDMlinhas
       'inner join linha_horario as lh on l.id_linha = lh.linha_id'
       'inner join horarios as h on lh.horario_id = h.id'
       ''
-      'where id_empresa =1')
+      'where id_empresa = :id_empresa')
     Left = 24
     Top = 48
+    ParamData = <
+      item
+        Name = 'ID_EMPRESA'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
     object QLinhasnome_linha: TStringField
       AutoGenerateValue = arDefault
       FieldName = 'nome_linha'

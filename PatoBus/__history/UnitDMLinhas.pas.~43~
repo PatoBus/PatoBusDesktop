@@ -1,0 +1,130 @@
+unit UnitDMLinhas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, System.Net.URLClient,
+  System.Net.HttpClient, System.Net.HttpClientComponent, System.JSON,UnitConnection,
+  FireDAC.UI.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Phys,
+  FireDAC.Phys.MySQL, FireDAC.Phys.MySQLDef, FireDAC.VCLUI.Wait;
+
+type
+  TDMlinhas = class(TForm)
+    DSLinhasComBoBox: TDataSource;
+    QLinhasComboBox: TFDQuery;
+    QLinhas: TFDQuery;
+    DSLinhas: TDataSource;
+    QLinhasnome_linha: TStringField;
+    QLinhasvalor: TBCDField;
+    QLinhashora: TTimeField;
+    QLinhasid_linha: TLargeintField;
+    QLinhasid_empresa: TLargeintField;
+    QLinhasid: TLargeintField;
+    QLinhashorario_id: TLargeintField;
+    QLinhaslinha_id: TLargeintField;
+    QLinhasid_1: TLargeintField;
+    QLinhaHorarios: TFDQuery;
+    DSLinhaHorarios: TDataSource;
+    QLinhaHorariosid: TLargeintField;
+    QLinhaHorarioshora: TTimeField;
+    QInsertLinhas: TFDQuery;
+    QDeleteLinhaHorario: TFDQuery;
+    procedure QLinhasBeforeDelete(DataSet: TDataSet);
+  private
+  public
+    procedure InitLinhasComboBox;
+    procedure InitLinhas;
+    procedure InitLinhasHorarios;
+    function Salvarlinha(linha_id:integer;nome_linha:string;valor:Double;id_empresa,horario_id:integer):string;
+  end;
+
+var
+  DMlinhas: TDMlinhas;
+
+implementation
+
+{$R *.dfm}
+
+procedure TDMLinhas.InitLinhasComboBox;
+begin
+  if QLinhasComboBox.Active then
+  begin
+    QLinhasComboBox.Close;
+  end;
+  QLinhasComboBox.Open;
+end;
+
+procedure TDMLinhas.InitLinhasHorarios;
+begin
+  if QLinhaHorarios.Active then
+  begin
+    QLinhaHorarios.Close;
+  end;
+  QLinhaHorarios.Open;
+end;
+
+procedure TDMlinhas.QLinhasBeforeDelete(DataSet: TDataSet);
+var nomelinha:string;
+begin
+        nomelinha:= QLinhasnome_linha.AsString;
+  QDeleteLinhaHorario.SQL.Text :=('Delete from linha_horario where linha_id= :linha_id');
+  QDeleteLinhaHorario.ParamByName('linha_id').AsInteger := QLinhasid_linha.AsInteger;
+  QDeleteLinhaHorario.ExecSQL;
+
+  QDeleteLinhaHorario.SQL.Text :='UPDATE Onibus SET id_linha = 19 WHERE id_linha = :linha_id';
+  QDeleteLinhaHorario.ParamByName('linha_id').AsInteger := QLinhasid_linha.AsInteger;
+  QDeleteLinhaHorario.ExecSQL;
+
+  ShowMessage ('Linha ' + nomelinha + ' excluída com sucesso');
+
+
+end;
+
+procedure TDMLinhas.InitLinhas;
+begin
+  if QLinhas.Active then
+  begin
+    QLinhas.Close;
+  end;
+  QLinhas.Open;
+end;
+
+function TDMLinhas.Salvarlinha(linha_id: integer; nome_linha: string; valor: Double; id_empresa, horario_id: integer): string;
+begin
+  // Inserção na tabela linha
+  QInsertLinhas.SQL.Text :=
+    'INSERT INTO linha (nome_linha, valor, id_empresa) ' +
+    'VALUES (:nome_linha, :valor, :id_empresa)';
+
+  QInsertLinhas.ParamByName('nome_linha').AsString := nome_linha;
+  QInsertLinhas.ParamByName('valor').AsFloat := valor;
+  QInsertLinhas.ParamByName('id_empresa').AsInteger := id_empresa;
+
+  QInsertLinhas.ExecSQL;
+
+  // Obter o ID gerado (se id_linha for auto-incremento)
+  QInsertLinhas.SQL.Text := 'SELECT LAST_INSERT_ID()';
+  QInsertLinhas.Open;
+  linha_id := QInsertLinhas.Fields[0].AsInteger;
+
+  // Inserção na tabela linha_horario
+  QInsertLinhas.SQL.Text :=
+    'INSERT INTO linha_horario (horario_id, linha_id) ' +
+    'VALUES (:horario_id, :linha_id)';
+
+  QInsertLinhas.ParamByName('horario_id').AsInteger := horario_id;
+  QInsertLinhas.ParamByName('linha_id').AsInteger := linha_id;
+
+  QInsertLinhas.ExecSQL;
+
+  // Retorno
+  result := 'Linha: ' + nome_linha + ' criada com sucesso';
+end;
+
+
+end.
+

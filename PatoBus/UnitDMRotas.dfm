@@ -23,9 +23,16 @@ object DMRotas: TDMRotas
       'select * from rota '
       ' inner join linha on rota.id_linha=linha.id_linha'
       ''
-      'where rota.id_empresa = 1')
+      'where rota.id_empresa = :id_empresa')
     Left = 416
     Top = 232
+    ParamData = <
+      item
+        Name = 'ID_EMPRESA'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
     object QRotaspontos: TMemoField
       AutoGenerateValue = arDefault
       FieldName = 'pontos'

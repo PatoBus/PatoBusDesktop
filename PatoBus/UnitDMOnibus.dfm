@@ -17,9 +17,16 @@ object DMOnibus: TDMOnibus
       'Select * from onibus'
       'inner join linha on onibus.id_linha  = linha.id_linha'
       ''
-      'where id_empresa=1')
+      'where id_empresa=:id_empresa')
     Left = 536
     Top = 48
+    ParamData = <
+      item
+        Name = 'ID_EMPRESA'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
     object QOnibusid_onibus: TLargeintField
       AutoGenerateValue = arAutoInc
       FieldName = 'id_onibus'

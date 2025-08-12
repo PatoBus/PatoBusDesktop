@@ -38,7 +38,7 @@ type
 
   public
     { Public declarations }
-    procedure initQRota;
+    procedure initQRota(id_empresa:integer);
     function  SalvarRota(Descricao, nome_rota ,pontos: string;id_linha,id_empresa:integer):string;
     procedure initQRotaCombobox;
 
@@ -52,12 +52,13 @@ implementation
 {$R *.dfm}
 
 { TdmRotas }
-procedure TDMrotas.initQRota;
+procedure TDMrotas.initQRota(id_empresa:integer);
 begin
   if QRotas.Active then
   begin
     QRotas.close;
   end;
+  QRotas.ParamByName('id_empresa').Asinteger := id_empresa;
   QRotas.Open;
 end;
 procedure TDMrotas.initQRotaCombobox;

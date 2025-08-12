@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB,
   Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, System.JSON, System.Net.HttpClient,
-  UnitDMRotas, Vcl.Buttons, Vcl.DBCtrls,UnitDMLinhas;
+  UnitDMRotas, Vcl.Buttons, Vcl.DBCtrls,UnitDMLinhas,UnitSessao;
 
 type
   TFormConsultaRotas = class(TForm)
@@ -26,7 +26,6 @@ type
     DBNavigator1: TDBNavigator;
     DBLookupComboBox1: TDBLookupComboBox;          //salvar
     procedure Button1Click(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure Button2Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -47,7 +46,7 @@ implementation
 procedure TFormConsultaRotas.Button1Click(Sender: TObject);
 begin
   // Chama o método LoadRotas do form dmRotas
-  dmRotas.initQRota
+  dmRotas.initQRota(SessaoUsuario.IdEmpresa);
   // Formatar as colunas do DBGrid
 end;
 
@@ -56,14 +55,6 @@ begin
   // Limpa o DataSet
   DMRotas.QRotas.Close;
   DMLinhas.QLinhasComboBox.Close;
- // DBLookupComboBox1.Text :='';
-  //Action := caFree;
-end;
-
-procedure TFormConsultaRotas.FormCreate(Sender: TObject);
-begin
-
- // DMLinhas.InitLinhasComboBox;
 
 end;
 
@@ -101,10 +92,10 @@ begin
       raise Exception.Create('ID da linha inválido.');
 
     // Chama o método PostRota (empresa com id fixo = 1)
-    ShowMessage(dmRotas.SalvarRota(descricao,nome, pontos,  idLinha,1));
+    ShowMessage(dmRotas.SalvarRota(descricao,nome, pontos,  idLinha,(SessaoUsuario.IdEmpresa)));
 
     // Atualiza a grid após salvar
-    dmRotas.initQRota;
+    dmRotas.initQRota(SessaoUsuario.IdEmpresa);
 
 
 

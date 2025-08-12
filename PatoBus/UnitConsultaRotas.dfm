@@ -911,7 +911,6 @@ object FormConsultaRotas: TFormConsultaRotas
     AA698EE2081B432C72D1C8F8A4391649446B6CEAEFE27531E2210A5F148CC0B4
     954220C0FF0301C01180D94BCD3A0000000049454E44AE426082}
   OnClose = FormClose
-  OnCreate = FormCreate
   OnShow = FormShow
   TextHeight = 15
   object Splitter1: TSplitter
